@@ -24,7 +24,7 @@ export default function AppRouter() {
         />
 
         <Route
-          path="/diagnosis"
+          path="/konsultasi"
           element={
             <div className="flex flex-col min-h-screen">
               <Navbar />

@@ -16,7 +16,7 @@ export default function Navbar() {
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: Home },
-    { path: "/diagnosis", label: "Diagnosis", icon: Stethoscope },
+    { path: "/konsultasi", label: "Konsultasi", icon: Stethoscope },
     { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
   ];
 
