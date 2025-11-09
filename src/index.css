@@ -10,3 +10,66 @@ body {
 #EEEEEE - text
 #CBCBCB - apa yah
 */
+
+/* loading */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.loading-box {
+  background-color: #5a5f52;
+  border: 1px solid rgba(183, 184, 159, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 24rem;
+  text-align: center;
+  color: #eeeeee;
+}
+
+.loading-spinner {
+  width: 4rem;
+  height: 4rem;
+  color: #b7b89f;
+  margin: 0 auto 1rem auto;
+  animation: spin 1s linear infinite;
+}
+
+.loading-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.loading-desc {
+  font-size: 0.875rem;
+  color: #cbcbcb;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* scroll bar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #777c6d;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #b7b89f;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a8a990;
+}
