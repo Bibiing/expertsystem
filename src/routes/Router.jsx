@@ -6,23 +6,51 @@ import Auth from "../pages/Auth";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-function AppRouter() {
+export default function AppRouter() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="max-w-6xl mx-auto">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/konsultasi" element={<KonsultasiForm />} />
-            <Route path="/hasil" element={<HasilKonsultasi />} />
-            <Route path="/auth" element={<Auth />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="max-w-6xl mx-auto w-full px-4">
+                <Dashboard />
+              </main>
+              <Footer />
+            </div>
+          }
+        />
+
+        <Route
+          path="/diagnosis"
+          element={
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="max-w-6xl mx-auto w-full px-4">
+                <KonsultasiForm />
+              </main>
+              <Footer />
+            </div>
+          }
+        />
+
+        <Route
+          path="/hasil"
+          element={
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="max-w-6xl mx-auto w-full px-4">
+                <HasilKonsultasi />
+              </main>
+              <Footer />
+            </div>
+          }
+        />
+
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
     </Router>
   );
 }
-
-export default AppRouter;

@@ -1,8 +1,9 @@
 import { Leaf, Droplets, Sun, Sprout, Shield, Clover } from "lucide-react";
+import { Link } from "react-router-dom";
 
-function Dashboard() {
+export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-[#777c6d] p-6">
+    <div className="min-h-screen bg-[#777c6d] py-16">
       <section className="bg-linear-to-br from-[#5a5f52] to-[#777c6d] rounded-2xl p-8 md:p-12 mb-8 shadow-xl border border-[#B7B89F]/20">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block p-3 bg-[#B7B89F]/20 rounded-full mb-4">
@@ -15,9 +16,11 @@ function Dashboard() {
             Identifikasi penyakit pada tanaman cabai Anda dengan cepat dan
             akurat menggunakan teknologi sistem pakar berbasis kecerdasan buatan
           </p>
-          <button className="bg-[#B7B89F] hover:bg-[#a8a990] text-[#777c6d] font-semibold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Mulai Diagnosis
-          </button>
+          <Link to="/diagnosis">
+            <button className="bg-[#B7B89F] hover:bg-[#a8a990] text-[#777c6d] font-semibold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              Mulai Diagnosis
+            </button>
+          </Link>
         </div>
       </section>
 
@@ -122,7 +125,7 @@ function Dashboard() {
             </div>
           </div>
           <button className="w-full mt-6 bg-[#B7B89F] hover:bg-[#a8a990] text-[#777c6d] font-semibold py-2 rounded-lg transition-colors duration-200">
-            Pelajari Lebih Lanjut
+            Mulai Diagnosis
           </button>
         </div>
       </div>
@@ -147,8 +150,6 @@ function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;
 
 const growthPhases = [
   {

@@ -10,13 +10,13 @@ import {
   LogIn,
 } from "lucide-react";
 
-function Navbar() {
+export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: Home },
-    { path: "/konsultasi", label: "Konsultasi", icon: Stethoscope },
+    { path: "/diagnosis", label: "Diagnosis", icon: Stethoscope },
     { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
   ];
 
@@ -123,5 +123,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;
