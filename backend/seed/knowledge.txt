@@ -1,0 +1,64 @@
+1. Antraknosa
+Buah busuk basah (0.85, 0.1)
+Daun, ranting, dan cabang membusuk kering berwarna coklat kehitam-hitaman (0.8, 0.05) 
+Buah timbul bercak berwarna hitam dan busuk lunak (0.7, 0,1) 
+
+2. Bercak Daun Serkospora
+Daun menjadi tua (menguning) sebelum waktunya (0.7, 0.2) 
+Daun mempunyai bercak berbentuk bulat, berwarna abu-abu dan warna coklat di pinggirannya (0.9, 0.1) 
+
+3. Layu Fusarium
+Batang membusuk (0.6, 0.1) 
+Tanaman layu dimulai dari pucuk kemudian menjalar ke bagian bawah (0.8, 0.1) 
+
+4. Busuk Buah Phytophora
+Pada buah dan batang cabai terdapat bercak kecil kebasah-basahan dan berwarna hijau suram (0.7, 0.1) 
+Buah menjadi kering dan mengeriput (0.8, 0.2) 
+
+5. Bengkak Akar
+Timbul kutil-kutil pada akar (0.9, 0,15) 
+Tanaman layu dan mengering (0.7, 0.1)
+Tanaman kerdil (0.6, 0.2) 
+
+6. Busuk Daun Choanepora
+Daun bagian pucuk berubah warna dari hijau muda menjadi coklat, membusuk, dan hitam (0,8, 0,1) 
+Batang membusuk (0.6, 0.1) 
+Batang mudah terkelupas (0.65, 0.1) 
+
+7. Kerupuk
+Tumbuh daun menumpuk (0.9, 0.1) 
+Tanaman kerdil (0.6, 0.2) 
+Daun melengkung ke bawah disertai kerutan-kerutan (0.8, 0.1) 
+Daun hijau pekat mengkilat dan permukaan tidak rata (0.8, 0.05) 
+
+8. Layu Bakteri
+Tanaman layu dimulai dari pucuk daun dan tetap berwarna hijau (0,8, 0,05) 
+Batang bawah dan akar menjadi kecoklatan (0.7, 0.1) 
+
+9. Virus Kuning
+Daun menguning (0.9, 0.1) 
+Daun mengeriting ke atas (0.8, 0.2) 
+
+10. Hama Tungau
+Tunas dan bunga gugur (0.8, 0.05) 
+Daun menjadi kaku dan melengkung ke bawah (0.9, 0.1) 
+Permukaan bawah daun berwarna seperti tembaga (0.75, 0.05) 
+Daun berbentuk abnormal (0.85, 0.1) 
+
+11. Hama Thrips
+Daun berwarna coklat tembaga dan mengeriting (0.6, 0.2) 
+Daun tampak keriput, mengeriting, dan melengkung ke atas (0.9, 0.1) 
+Pertumbuhan tanaman terhambat dan kerdil serta pucuk tanaman menjadi mati (0.6, 0.1) 
+
+12. Ulat Grayak
+Pada buah timbul lubang tidak beraturan (0.6, 0.1) 
+Tanaman gundul (0.8, 0.15) 
+
+13. Hama Lalat Buah
+Buah rontok (0.7, 0.05) 
+Pangkal buah cabai terdapat titik hitam (0.9, 0.1) 
+Buah busuk basah (0.85, 0.1) 
+
+14. Hama Kutu Daun
+Tanaman kerdil (0.6, 0.2) 
+Daun menjadi keriput dan berwarna kekuningan (0.85, 0.1)

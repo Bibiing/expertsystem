@@ -1,10 +1,10 @@
-// import InferenceService from '../../core/inference/InferenceService.js';
-// const inferenceService = new InferenceService();
+import InferenceService from '../services/inference.service.js';
+const inferenceService = new InferenceService();
 
 /**
  *
- * @param {import('fastify').FastifyRequest} request - Objek request Fastify
- * @param {import('fastify').FastifyReply} reply - Objek reply Fastify
+ * @param {import('fastify').FastifyRequest} request 
+ * @param {import('fastify').FastifyReply} reply 
  */
 export async function diagnoseHandler(request, reply) {
    try {
@@ -12,11 +12,12 @@ export async function diagnoseHandler(request, reply) {
 
       request.log.info(`Menerima permintaan diagnosis untuk gejala: ${symptoms.join(', ')}`);
 
-      const diagnosisResults = [
-         { id: "P01", name: "Antraknosa", solution: "Gunakan fungisida X..." },
-         { id: "P03", name: "Bercak Daun", solution: "Atur irigasi..." }
-      ];
-      // ---------------------------------------------
+      // const diagnosisResults = [
+      //    { id: "P01", name: "Antraknosa", solution: "Gunakan fungisida X..." },
+      //    { id: "P03", name: "Bercak Daun", solution: "Atur irigasi..." }
+      // ];
+
+      const diagnosisResults = await inferenceService.diagnose(symptoms);
 
       return reply.status(200).send(diagnosisResults);
 

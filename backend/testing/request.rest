@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3001/api/v1
+
+###
+GET http://localhost:3001/health
+
+###
+GET {{baseUrl}}/symptoms
+
+###
+POST {{baseUrl}}/diagnose
+Content-Type: application/json
+
+{
+  "symptoms": [
+    { "symptom_id": "S003", "certainty": 1.0 },
+    { "symptom_id": "S001", "certainty": 1.0 },
+    { "symptom_id": "S002", "certainty": 1.0 },
+    { "symptom_id": "S006", "certainty": 1.0 },
+    { "symptom_id": "S007", "certainty": 1.0 }
+  ]
+}

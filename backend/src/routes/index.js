@@ -1,5 +1,5 @@
 import { diagnoseHandler } from '../controllers/diagnose.controller.js';
-import { diagnoseSchema } from '../schemas/diagnose.schema.js';
+import { getAllSymptoms } from '../controllers/symptom.controller.js';
 
 /**
  * Plugin utama yang mendaftarkan semua rute aplikasi Anda.
@@ -9,11 +9,17 @@ import { diagnoseSchema } from '../schemas/diagnose.schema.js';
  * @param {object} options 
  */
 async function mainRoutes(fastify, options) {
+
    fastify.route({
       method: 'POST',
       url: '/diagnose',
-      schema: diagnoseSchema,
       handler: diagnoseHandler,
+   });
+
+   fastify.route({
+      method: 'GET',
+      url: '/symptoms',
+      handler: getAllSymptoms,
    });
 }
 
