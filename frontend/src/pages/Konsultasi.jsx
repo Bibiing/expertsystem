@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Stethoscope, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import LoadingOverlay from "../components/Loading";
-import gejala from "../data/gejala";
+import { diagnosisService } from "../services/diagnosisService";
 
 function Konsultasi() {
   const navigate = useNavigate();
+  const [gejalaList, setGejalaList] = useState([]); // State untuk data dari API
   const [selectedGejala, setSelectedGejala] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // Loading awal fetch gejala
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState(null);
+
+  // Fetch gejala saat komponen dimuat
+  useEffect(() => {
+    const fetchGejala = async () => {
+      try {
+        const data = await diagnosisService.getSymptoms();
+        setGejalaList(data);
+      } catch (err) {
+        setError("Gagal memuat data gejala. Pastikan server backend berjalan.");
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchGejala();
+  }, []);
 
   const handleCheckboxChange = (gejalaId) => {
     setSelectedGejala((prev) => {
@@ -27,51 +46,79 @@ function Konsultasi() {
     }
 
     setIsLoading(true);
-    // backedn
-    setTimeout(() => {
+    try {
+      // Kirim ke backend
+      const result = await diagnosisService.diagnose(selectedGejala);
+      
+      // Siapkan data untuk halaman hasil
+      // Kita perlu mengirim juga detail gejala yang dipilih untuk ditampilkan
+      const selectedGejalaDetails = gejalaList.filter(g => selectedGejala.includes(g._id));
+      
+      navigate("/hasil", { 
+        state: { 
+          diagnosisResult: result,
+          selectedGejala: selectedGejalaDetails
+        } 
+      });
+    } catch (err) {
+      alert("Terjadi kesalahan saat diagnosis. Coba lagi.");
+      console.error(err);
+    } finally {
       setIsLoading(false);
-      navigate("/hasil", { state: { gejala: selectedGejala } });
-    }, 2000);
-  };
-
-  const filteredGejala = gejala.filter((item) =>
-    item.nama.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSelectAll = () => {
-    if (selectedGejala.length === gejala.length) {
-      setSelectedGejala([]);
-    } else {
-      setSelectedGejala(gejala.map((g) => g.id));
     }
   };
 
+  const filteredGejala = gejalaList.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSelectAll = () => {
+    if (selectedGejala.length === gejalaList.length) {
+      setSelectedGejala([]);
+    } else {
+      setSelectedGejala(gejalaList.map((g) => g._id));
+    }
+  };
+
+  if (isFetching) return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-emerald-800 font-medium">Memuat Data Gejala...</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-red-600 font-medium">{error}</div>;
+
   return (
-    <div className="min-h-screen bg-[#777c6d] p-4 sm:p-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-slate-50 p-4 sm:p-6"
+    >
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="bg-linear-to-br from-[#5a5f52] to-[#777c6d] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 shadow-xl border border-[#B7B89F]/20">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 shadow-lg"
+        >
           <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4">
-            <div className="p-2 sm:p-3 bg-[#B7B89F]/20 rounded-full shrink-0">
-              <Stethoscope className="w-6 h-6 sm:w-8 sm:h-8 text-[#B7B89F]" />
+            <div className="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-full shrink-0">
+              <Stethoscope className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#EEEEEE] warp-break-word">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white warp-break-word">
                 Konsultasi Diagnosis
               </h1>
-              <p className="text-sm sm:text-base text-[#CBCBCB] mt-1">
+              <p className="text-sm sm:text-base text-emerald-50 mt-1">
                 Pilih gejala yang terlihat pada tanaman cabai Anda
               </p>
             </div>
           </div>
 
-          <div className="bg-[#B7B89F]/10 border border-[#B7B89F]/30 rounded-lg p-3 sm:p-4 flex items-start gap-2 sm:gap-3">
-            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#B7B89F] shrink-0 mt-0.5" />
+          <div className="bg-white/10 border border-white/20 rounded-lg p-3 sm:p-4 flex items-start gap-2 sm:gap-3 backdrop-blur-sm">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-200 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
-              <p className="text-[#EEEEEE] text-xs sm:text-sm font-medium mb-1">
+              <p className="text-white text-xs sm:text-sm font-medium mb-1">
                 Tips Diagnosis yang Akurat:
               </p>
-              <ul className="text-[#CBCBCB] text-xs sm:text-sm space-y-1">
+              <ul className="text-emerald-50 text-xs sm:text-sm space-y-1">
                 <li>• Pilih semua gejala yang Anda amati pada tanaman</li>
                 <li>
                   • Semakin banyak gejala yang dipilih, diagnosis akan lebih
@@ -83,9 +130,14 @@ function Konsultasi() {
               </ul>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-[#5a5f52] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border border-[#B7B89F]/10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200"
+        >
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div className="flex-1">
               <input
@@ -93,74 +145,85 @@ function Konsultasi() {
                 placeholder="Cari gejala..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-[#777c6d] border border-[#B7B89F]/30 rounded-lg text-sm sm:text-base text-[#EEEEEE] placeholder-[#CBCBCB] focus:outline-none focus:border-[#B7B89F] focus:ring-2 focus:ring-[#B7B89F]/20 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
               />
             </div>
             <button
               onClick={handleSelectAll}
-              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#777c6d] hover:bg-[#6b7060] border border-[#B7B89F]/30 rounded-lg text-sm sm:text-base text-[#EEEEEE] font-medium transition-all duration-300 whitespace-nowrap"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-sm sm:text-base text-slate-700 font-medium transition-all duration-300 whitespace-nowrap"
             >
-              {selectedGejala.length === gejala.length
+              {selectedGejala.length === gejalaList.length
                 ? "Hapus Semua"
                 : "Pilih Semua"}
             </button>
           </div>
 
           <div className="mb-3 sm:mb-4 flex items-center justify-between">
-            <p className="text-[#CBCBCB] text-xs sm:text-sm">
+            <p className="text-slate-500 text-xs sm:text-sm">
               Gejala dipilih:{" "}
-              <span className="text-[#B7B89F] font-semibold">
+              <span className="text-emerald-600 font-bold">
                 {selectedGejala.length}
               </span>{" "}
-              dari {gejala.length}
+              dari {gejalaList.length}
             </p>
           </div>
 
           <div className="space-y-2 mb-4 sm:mb-6 max-h-[400px] sm:max-h-[500px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
             {filteredGejala.map((item) => (
-              <label
-                key={item.id}
-                className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg cursor-pointer transition-all duration-300 ${
-                  selectedGejala.includes(item.id)
-                    ? "bg-[#B7B89F]/20 border-2 border-[#B7B89F]"
-                    : "bg-[#777c6d]/50 border-2 border-transparent hover:bg-[#777c6d]/70 hover:border-[#B7B89F]/30"
+              <motion.label
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                key={item._id}
+                className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg cursor-pointer transition-all duration-300 border ${
+                  selectedGejala.includes(item._id)
+                    ? "bg-emerald-50 border-emerald-500 shadow-sm"
+                    : "bg-white border-slate-100 hover:bg-slate-50 hover:border-emerald-200"
                 }`}
               >
                 <div className="flex items-center h-5 sm:h-6 shrink-0">
                   <input
                     type="checkbox"
-                    checked={selectedGejala.includes(item.id)}
-                    onChange={() => handleCheckboxChange(item.id)}
-                    className="w-4 h-4 sm:w-5 sm:h-5 rounded border-[#B7B89F]/50 text-[#B7B89F] accent-[#B7B89F] focus:ring-[#B7B89F] focus:ring-offset-0 bg-[#777c6d] cursor-pointer"
+                    checked={selectedGejala.includes(item._id)}
+                    onChange={() => handleCheckboxChange(item._id)}
+                    className="w-4 h-4 sm:w-5 sm:h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[#EEEEEE] text-xs sm:text-sm leading-relaxed wrap-break-word">
-                    {item.nama}
+                  <p className={`text-xs sm:text-sm leading-relaxed wrap-break-word ${selectedGejala.includes(item._id) ? 'text-emerald-900 font-medium' : 'text-slate-700'}`}>
+                    {item.name}
                   </p>
                 </div>
-                {selectedGejala.includes(item.id) && (
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#B7B89F] shrink-0" />
+                {selectedGejala.includes(item._id) && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                  >
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 shrink-0" />
+                  </motion.div>
                 )}
-              </label>
+              </motion.label>
             ))}
 
             {filteredGejala.length === 0 && (
               <div className="text-center py-8 sm:py-12">
-                <p className="text-[#CBCBCB] text-sm">
+                <p className="text-slate-400 text-sm">
                   Tidak ada gejala yang sesuai dengan pencarian
                 </p>
               </div>
             )}
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleSubmit}
             disabled={isLoading || selectedGejala.length === 0}
-            className={`w-full py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 ${
+            className={`w-full py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 ${
               isLoading || selectedGejala.length === 0
-                ? "bg-[#B7B89F]/50 text-[#777c6d]/50 cursor-not-allowed"
-                : "bg-[#B7B89F] hover:bg-[#a8a990] text-[#777c6d] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             }`}
           >
             {isLoading ? (
@@ -176,17 +239,19 @@ function Konsultasi() {
                 <span className="text-sm sm:text-lg">Mulai Diagnosis</span>
               </>
             )}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
 
-      {isLoading && (
-        <LoadingOverlay
-          message="Sedang Memproses..."
-          desc="Sistem sedang menganalisis gejala yang Anda pilih"
-        />
-      )}
-    </div>
+      <AnimatePresence>
+        {isLoading && (
+          <LoadingOverlay
+            message="Sedang Memproses..."
+            desc="Sistem sedang menganalisis gejala yang Anda pilih"
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 

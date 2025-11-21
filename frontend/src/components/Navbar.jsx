@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Leaf,
   Menu,
@@ -7,36 +7,35 @@ import {
   Home,
   Stethoscope,
   ClipboardList,
-  LogIn,
 } from "lucide-react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+  const location = useLocation();
+  const activeLink = location.pathname;
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: Home },
     { path: "/konsultasi", label: "Konsultasi", icon: Stethoscope },
-    { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
+    // { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
   ];
 
   return (
-    <nav className="bg-linear-to-r from-[#5a5f52] to-[#6b7060] sticky top-0 z-50 shadow-lg rounded-b-lg ">
+    <nav className="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link
             to="/"
             className="flex items-center space-x-3 group"
-            onClick={() => setActiveLink("/")}
           >
-            <div className="bg-[#B7B89F] p-2 rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-md">
-              <Leaf className="w-6 h-6 text-[#777c6d]" />
+            <div className="bg-emerald-100 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
+              <Leaf className="w-6 h-6 text-emerald-600" />
             </div>
             <div>
-              <h1 className="font-bold text-xl text-[#EEEEEE] group-hover:text-[#B7B89F] transition-colors duration-300">
+              <h1 className="font-bold text-xl text-slate-800 group-hover:text-emerald-600 transition-colors duration-300">
                 Diagnosis Cabai
               </h1>
-              <p className="text-[#CBCBCB] text-xs hidden sm:block">
+              <p className="text-slate-500 text-xs hidden sm:block">
                 Sistem Pakar
               </p>
             </div>
@@ -50,9 +49,10 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setActiveLink(link.path)}
-                  className={`flex items-center space-x-2 px-4 py-2 transition-all duration-300 ${
-                    isActive ? "text-[#cfd0b5]" : "text-[#EEEEEE]"
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                    isActive 
+                      ? "bg-emerald-50 text-emerald-700" 
+                      : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -60,19 +60,11 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
-            <Link
-              to="/auth"
-              className="flex items-center space-x-2 bg-[#B7B89F] text-[#777c6d] px-5 py-2 rounded-lg hover:bg-[#a8a990] transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-0.5 font-semibold ml-4"
-            >
-              <LogIn className="w-4 h-4" />
-              <span>Login</span>
-            </Link>
           </div>
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-[#EEEEEE] hover:bg-[#777c6d]/50 transition-colors duration-300"
+            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors duration-300"
           >
             {isMenuOpen ? (
               <X className="w-6 h-6" />
@@ -96,11 +88,12 @@ export default function Navbar() {
                   key={link.path}
                   to={link.path}
                   onClick={() => {
-                    setActiveLink(link.path);
                     setIsMenuOpen(false);
                   }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                    isActive ? "text-[#cfd0b5]" : "text-[#EEEEEE]"
+                    isActive 
+                      ? "bg-emerald-50 text-emerald-700" 
+                      : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -108,15 +101,6 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
-            <Link
-              to="/auth"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center space-x-3 bg-[#B7B89F] text-[#777c6d] px-4 py-3 rounded-lg hover:bg-[#a8a990] transition-all duration-300 shadow-md font-semibold"
-            >
-              <LogIn className="w-5 h-5" />
-              <span>Login</span>
-            </Link>
           </div>
         </div>
       </div>

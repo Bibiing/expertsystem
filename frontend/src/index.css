@@ -1,22 +1,44 @@
 @import "tailwindcss";
 
-body {
-  background-color: #777c6d;
-}
-
-/* color pallet
-#777c6d - background
-#B7B89F - button
-#EEEEEE - text
-#CBCBCB - apa yah
+/* 
+🌿 Plant Expert System Color Palette
+Modern, fresh, and agriculture-focused design
 */
 
-/* loading */
+:root {
+  /* Primary Colors - Modern Emerald Theme */
+  --bg-primary: #f8fafc;        /* Slate 50 */
+  --bg-secondary: #ffffff;      /* White */
+  --bg-card: #ffffff;           /* White */
+  
+  /* Accent Colors */
+  --accent-green: #10b981;      /* Emerald 500 */
+  --accent-dark: #047857;       /* Emerald 700 */
+  --accent-light: #d1fae5;      /* Emerald 100 */
+  
+  /* Text Colors */
+  --text-primary: #1e293b;      /* Slate 800 */
+  --text-secondary: #64748b;    /* Slate 500 */
+  --text-muted: #94a3b8;        /* Slate 400 */
+  --text-white: #ffffff;        
+  
+  /* UI Elements */
+  --border-color: #e2e8f0;      /* Slate 200 */
+  --shadow: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Loading Overlay */
 .loading-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,32 +46,33 @@ body {
 }
 
 .loading-box {
-  background-color: #5a5f52;
-  border: 1px solid rgba(183, 184, 159, 0.2);
+  background: white;
+  border: 1px solid var(--border-color);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 24rem;
   text-align: center;
-  color: #eeeeee;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .loading-spinner {
   width: 4rem;
   height: 4rem;
-  color: #b7b89f;
+  color: var(--accent-green);
   margin: 0 auto 1rem auto;
   animation: spin 1s linear infinite;
 }
 
 .loading-title {
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .loading-desc {
   font-size: 0.875rem;
-  color: #cbcbcb;
+  color: var(--text-secondary);
 }
 
 @keyframes spin {
@@ -58,18 +81,88 @@ body {
   }
 }
 
-/* scroll bar */
+/* Custom Scrollbar - Green Theme */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #777c6d;
-  border-radius: 4px;
+  background: var(--bg-secondary);
+  border-radius: 5px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #b7b89f;
-  border-radius: 4px;
+  background: linear-gradient(180deg, var(--accent-green) 0%, var(--accent-dark) 100%);
+  border-radius: 5px;
+  border: 2px solid var(--bg-secondary);
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #a8a990;
+  background: var(--accent-dark);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+/* Utility Classes for Consistent Theming */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-dark) 100%);
+  color: var(--text-white);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(46, 125, 50, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Badge/Tag Styles */
+.badge-success {
+  background: var(--accent-light);
+  color: var(--text-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-warning {
+  background: #ffeb3b;
+  color: #f57f17;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Input Focus States */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* Link Hover Effect */
+a {
+  color: var(--accent-green);
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-dark);
+  text-decoration: underline;
 }

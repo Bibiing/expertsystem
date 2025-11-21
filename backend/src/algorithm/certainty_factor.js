@@ -12,7 +12,7 @@ class CertaintyFactor {
     * @returns {{ mb: number, md: number }}
     */
    static updateHypothesisState(current, cfEvidence) {
-      let { mb, md } = current;
+      let { mb, md } = current;detik
 
       if (cfEvidence >= 0) {
          // Menambah ke Measure of Belief

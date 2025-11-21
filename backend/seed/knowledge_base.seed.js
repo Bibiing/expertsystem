@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import Disease from '../src/models/Disease.js';
-import Symptom from '../src/models/Symptom.js';
-import Rule from '../src/models/Rule.js';
+import Disease from '../src/models/disease.js';
+import Symptom from '../src/models/symptom.js';
+import Rule from '../src/models/rule.js';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {

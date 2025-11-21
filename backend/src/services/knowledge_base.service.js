@@ -1,6 +1,6 @@
-import Disease from '../models/Disease.js';
-import Symptom from '../models/Symptom.js';
-import Rule from '../models/Rule.js';
+import Disease from '../models/disease.js';
+import Symptom from '../models/symptom.js';
+import Rule from '../models/rule.js';
 
 class KnowledgeBaseService {
    constructor(logger) {
@@ -19,7 +19,7 @@ class KnowledgeBaseService {
 
    async getSymptomsByIds(ids = []) {
       try {
-         return await Symptom.find({ id: { $in: ids } });
+         return await Symptom.find({ _id: { $in: ids } });
       } catch (err) {
          this.log.error(`Gagal mengambil gejala berdasarkan ID: ${err.message}`);
          throw err;
@@ -38,7 +38,7 @@ class KnowledgeBaseService {
 
    async getDiseasesByIds(ids = []) {
       try {
-         return await Disease.find({ id: { $in: ids } });
+         return await Disease.find({ _id: { $in: ids } });
       } catch (err) {
          this.log.error(`Gagal mengambil penyakit berdasarkan ID: ${err.message}`);
          throw err;
