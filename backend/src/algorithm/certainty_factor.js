@@ -1,54 +1,109 @@
+/**
+ * Certainty Factor Utility
+ * ------------------------
+ * Menerapkan metode CF (MYCIN) untuk sistem pakar rule-based.
+ *
+ * Fitur:
+ * - Perhitungan CF standar (tanpa XAI).
+ * - Perhitungan CF dengan penjelasan lengkap (XAI).
+ *
+ * Rumus dasar:
+ *   CF = MB - MD
+ *
+ * Kombinasi (MYCIN):
+ *   MB_new = MB_old + MB_user * (1 - MB_old)
+ *   MD_new = MD_old + MD_user * (1 - MD_old)
+ */
+
 class CertaintyFactor {
+   // ---------------------------------------------------
+   // 1. Mengambil CF Premis (AND → minimum)
+   // ---------------------------------------------------
    static calculatePremiseCF(cfList = []) {
-      if (!Array.isArray(cfList) || cfList.length === 0) {
-         return 0;
-      }
+      if (!Array.isArray(cfList) || cfList.length === 0) return 0;
       return Math.min(...cfList);
    }
 
-   /**
-    * @param {{ mb: number, md: number }} current
-    * @param {number} cfEvidence
-    * @returns {{ mb: number, md: number }}
-    */
-   static updateHypothesisState(current, cfEvidence) {
-      let { mb, md } = current;
-
-      if (cfEvidence >= 0) {
-         // Menambah ke Measure of Belief
-         mb = this.combineMB(mb, cfEvidence);
-      } else {
-         // Menambah ke Measure of Disbelief
-         const mdEvidence = Math.abs(cfEvidence);
-         md = this.combineMD(md, mdEvidence);
-      }
-
-      // Clamp ke range [0, 1]
-      mb = Math.min(1, Math.max(0, mb));
-      md = Math.min(1, Math.max(0, md));
-
-      return { mb, md };
-   }
-
-   /**
-    *   MB_new = MB1 + MB2(1 - MB1)
-    */
+   // ---------------------------------------------------
+   // 2. Kombinasi MB standar
+   // ---------------------------------------------------
    static combineMB(mbOld, mbNew) {
       return mbOld + mbNew * (1 - mbOld);
    }
 
-   /**
-    *   MD_new = MD1 + MD2(1 - MD1)
-    */
+   // ---------------------------------------------------
+   // 3. Kombinasi MD standar
+   // ---------------------------------------------------
    static combineMD(mdOld, mdNew) {
       return mdOld + mdNew * (1 - mdOld);
    }
 
-   /**
-    * CF final = MB - MD
-    */
+   // ---------------------------------------------------
+   // 4. CF Final
+   // ---------------------------------------------------
    static calculateFinalCF(mb, md) {
       return mb - md;
+   }
+
+   // =================================================================
+   // ⬇⬇⬇  XAI MODE: fungsi yang mengembalikan hasil + penjelasan  ⬇⬇⬇
+   // =================================================================
+
+   /**
+    * Kombinasi MB dengan penjelasan XAI
+    */
+   static combineMB_XAI(mbOld, mbNew) {
+      const result = mbOld + mbNew * (1 - mbOld);
+
+      const explanation =
+         `MB_new = ${mbOld.toFixed(3)} + ${mbNew.toFixed(3)} × (1 - ${mbOld.toFixed(3)}) = ${result.toFixed(3)}`;
+
+      return { result, explanation };
+   }
+
+   /**
+    * Kombinasi MD dengan penjelasan XAI
+    */
+   static combineMD_XAI(mdOld, mdNew) {
+      const result = mdOld + mdNew * (1 - mdOld);
+
+      const explanation =
+         `MD_new = ${mdOld.toFixed(3)} + ${mdNew.toFixed(3)} × (1 - ${mdOld.toFixed(3)}) = ${result.toFixed(3)}`;
+
+      return { result, explanation };
+   }
+
+   /**
+    * Menghasilkan CF final dengan penjelasan XAI
+    */
+   static calculateFinalCF_XAI(mb, md) {
+      const result = mb - md;
+      const explanation = `CF_final = MB - MD = ${mb.toFixed(3)} - ${md.toFixed(3)} = ${result.toFixed(3)}`;
+      return { result, explanation };
+   }
+
+   /**
+    * Mengupdate state hipotesis dengan XAI  
+    * menghasilkan:
+    * - MB_new  
+    * - MD_new  
+    * - penjelasan langkah demi langkah
+    */
+   static updateHypothesisState_XAI(currentState, MB_user, MD_user) {
+      const steps = [];
+
+      // MB
+      const mbCalc = CertaintyFactor.combineMB_XAI(currentState.mb, MB_user);
+      steps.push(mbCalc.explanation);
+
+      // MD
+      const mdCalc = CertaintyFactor.combineMD_XAI(currentState.md, MD_user);
+      steps.push(mdCalc.explanation);
+
+      return {
+         newState: { mb: mbCalc.result, md: mdCalc.result },
+         explanationSteps: steps
+      };
    }
 }
 

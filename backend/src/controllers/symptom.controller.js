@@ -1,4 +1,5 @@
 import SymptomService from "../services/symptom.service.js"
+import { responseFailed, responseSuccess } from "../utils/response.js";
 const symptomService = new SymptomService();
 
 /**
@@ -9,8 +10,10 @@ const symptomService = new SymptomService();
 export const getAllSymptoms = async (request, reply) => {
    try {
       const symptoms = await symptomService.getAllSymptoms();
-      reply.status(200).send(symptoms);
-   } catch (err) {
-      reply.status(500).send(err);
+      const payload = responseSuccess("Berhasil mengambil gejala", symptoms)
+      reply.status(200).send(payload);
+   } catch (error) {
+      const payload = responseFailed("Internal Server Error", "Gagal mengambil gejala: " + error.message)
+      reply.status(500).send(payload);
    }
 };

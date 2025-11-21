@@ -1,4 +1,5 @@
 import InferenceService from '../services/inference.service.js';
+import { responseFailed, responseSuccess } from '../utils/response.js';
 const inferenceService = new InferenceService();
 
 /**
@@ -9,25 +10,11 @@ const inferenceService = new InferenceService();
 export async function diagnoseHandler(request, reply) {
    try {
       const { symptoms } = request.body;
-
-      request.log.info(`Menerima permintaan diagnosis untuk gejala: ${symptoms.join(', ')}`);
-
-      // const diagnosisResults = [
-      //    { id: "P01", name: "Antraknosa", solution: "Gunakan fungisida X..." },
-      //    { id: "P03", name: "Bercak Daun", solution: "Atur irigasi..." }
-      // ];
-
-      const diagnosisResults = await inferenceService.diagnose(symptoms);
-
-      return reply.status(200).send(diagnosisResults);
-
+      const result = await inferenceService.diagnose(symptoms);
+      const payload = responseSuccess("Berhasil mendiagnosis", result)
+      return reply.status(200).send(payload);
    } catch (error) {
-      request.log.error(error, 'Terjadi kesalahan saat proses diagnosis');
-
-      return reply.status(500).send({
-         statusCode: 500,
-         error: 'Internal Server Error',
-         message: 'Terjadi kesalahan internal pada server saat memproses diagnosis Anda.',
-      });
+      const payload = responseFailed("Internal Server Error", "Gagal mendiagnosis tanaman: " + error.message)
+      return reply.status(500).send(payload);
    }
 }
