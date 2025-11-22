@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 
 import mainRoutes from './routes/index.js';
+import { responseFailed } from './utils/response.js';
 
 // Opsi untuk logger: 'pino-pretty' membuat log lebih mudah dibaca saat development
 const loggerConfig = process.env.NODE_ENV === 'development'
@@ -48,14 +49,19 @@ function buildServer() {
       return { status: 'ok' };
    });
 
-   // Hook untuk menangani 'route not found'
+   // Hook untuk menangani error secara global
    server.setNotFoundHandler((request, reply) => {
       server.log.warn(`Route not found: ${request.method} ${request.url}`);
-      reply.status(404).send({
-         statusCode: 404,
-         error: 'Not Found',
-         message: 'Route not found',
-      });
+      const payload = responseFailed("Route Not Found", "Not Found")
+      reply.status(404).send(payload);
+   });
+
+   server.setErrorHandler((error, request, reply) => {
+      server.log.error(error);
+      if (error.validation) {
+         const payload = responseFailed("Invalid Request", error.message)
+         return reply.status(400).send(payload);
+      }
    });
 
    return server;

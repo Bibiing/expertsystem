@@ -1,87 +1,133 @@
-import KnowledgeBaseService from './knowledge_base.service.js';
-import CertaintyFactor from '../algorithm/certainty_factor.js';
+import CertaintyFactor from "../algorithm/certainty_factor.js";
+import RuleRepository from "../repository/rule.repository.js";
+import DiagnoseRepository from "../repository/diagnose.repositories.js";
 
 class InferenceService {
    constructor(logger) {
-      this.kbService = new KnowledgeBaseService();
+      this.ruleRepo = new RuleRepository(logger);
+      this.diagnoseRepo = new DiagnoseRepository(logger);
       this.log = logger || console;
    }
 
+   /**
+    * userInputSymptoms: [
+    *   { symptom_id: "buah-busuk-basah", certainty: 0.85 }
+    * ]
+    */
    async diagnose(userInputSymptoms) {
-      this.log.info('Memulai diagnosis CF...');
+      this.log.info("Memulai proses diagnosis + XAI...");
 
-      // 1. Ambil semua rule dari DB
-      const allRules = await this.kbService.getAllRules();
+      // 1. Ambil semua knowledge base (rules, symptoms, diseases)
+      const { rules, symptoms, diseases } = await this.ruleRepo.getRuleBundle();
 
-      // 2. Working Memory (gejala yang diinput user)
-      const wm = new Map();
+      // Buat Map lookup cepat untuk detail gejala & penyakit
+      const symptomMap = new Map(symptoms.map(s => [s._id, s]));
+      const diseaseMap = new Map(diseases.map(d => [String(d._id), d]));
+
+      // 2. Masukkan input user ke Working Memory
+      const WM = new Map();
       for (const s of userInputSymptoms) {
-         if (s.certainty > 0.0) {
-            wm.set(s.symptom_id, s.certainty);
+         if (s.certainty > 0) {
+            WM.set(s.symptom_id, s.certainty);
          }
       }
 
-      // 3. Tempat agregasi MB/MD tiap penyakit
-      const diseaseState = new Map();
+      // 3. State penyakit dan XAI trace
+      const diseaseState = new Map();   // penyakit → { mb, md }
+      const explanationTrace = new Map(); // penyakit → XAI obj
 
-      // 4. Proses setiap rule
-      for (const rule of allRules) {
+      // 4. Eksekusi rules 1 gejala : 1 penyakit
+      for (const rule of rules) {
          const { disease_id, symptom_id, mb, md } = rule;
 
-         if (!wm.has(symptom_id)) continue;
+         // Gejala tidak dipilih user → rule di-skip
+         if (!WM.has(symptom_id)) continue;
+         const userCF = WM.get(symptom_id);
 
-         const userCF = wm.get(symptom_id);
          const MB_user = mb * userCF;
          const MD_user = md * userCF;
 
-         // Ambil state sebelumnya
+         // Ambil state lama
          let current = diseaseState.get(disease_id);
          if (!current) current = { mb: 0, md: 0 };
 
-         const updated = {
-            mb: CertaintyFactor.combineMB(current.mb, MB_user),
-            md: CertaintyFactor.combineMD(current.md, MD_user),
-         };
+         // Lakukan kombinasi dengan XAI
+         const { newState, explanationSteps } =
+            CertaintyFactor.updateHypothesisState_XAI(current, MB_user, MD_user);
 
-         diseaseState.set(disease_id, updated);
+         diseaseState.set(disease_id, newState);
+
+         if (!explanationTrace.has(disease_id)) {
+            explanationTrace.set(disease_id, {
+               disease_id,
+               matchedSymptoms: [],
+               calculations: []
+            });
+         }
+
+         const trace = explanationTrace.get(disease_id);
+
+         // Tambah gejala yang match
+         trace.matchedSymptoms.push({
+            symptom_id,
+            symptom_name: symptomMap.get(symptom_id)?.name || symptom_id,
+            userCF,
+            expertMB: mb,
+            expertMD: md,
+            MB_user,
+            MD_user
+         });
+
+         // Tambah langkah perhitungan
+         trace.calculations.push(...explanationSteps);
       }
 
-      // 5. Hitung CF final
+      // 5. Hitung CF final setiap penyakit
       const results = [];
 
-      for (const [disease_id, state] of diseaseState.entries()) {
-         const finalCF = CertaintyFactor.calculateFinalCF(state.mb, state.md);
+      for (const [diseaseId, state] of diseaseState.entries()) {
+         const { result: cfFinal, explanation } =
+            CertaintyFactor.calculateFinalCF_XAI(state.mb, state.md);
 
-         if (finalCF > 0.05) {
+         if (cfFinal > 0.05) {
+            const diseaseDetail = diseaseMap.get(diseaseId);
+
             results.push({
-               id: disease_id,
-               cf: finalCF
+               id: diseaseId,
+               name: diseaseDetail?.name,
+               description: diseaseDetail?.description,
+               treatment: diseaseDetail?.treatment,
+               cf: Number(cfFinal.toFixed(3)),
+               explanation: {
+                  ...explanationTrace.get(diseaseId),
+                  finalCFExplanation: explanation
+               }
             });
          }
       }
 
-      // 6. Urutkan CF tertinggi
+      // 6. Urutkan hasil tertinggi
       results.sort((a, b) => b.cf - a.cf);
+      results.slice(0, 5);
 
-      // 7. Ambil detail penyakit
-      const ids = results.map(r => r.id);
-      const details = await this.kbService.getDiseasesByIds(ids);
+      this.log.info(`Diagnosis selesai: ${results.length} penyakit terdeteksi.`);
 
-      // 8. Gabungkan
-      const finalDiagnosis = results.map(r => {
-         const d = details.find(x => x.id === r.id);
+      // 7. Menyimpan hasil diagnosis untuk keperluan statistik
+      const best = results[0];
+      if (best) {
+         await this.diagnoseRepo.createDiagnose({
+            disease_id: best.id,
+            disease_name: best.name,
+            symptoms: userInputSymptoms.map(s => ({
+               symptom_id: s.symptom_id,
+               certainty: s.certainty,
+               symptom_name: symptomMap.get(s.symptom_id)?.name
+            })),
+            final_score: best.cf
+         });
+      }
 
-         return {
-            id: r.id,
-            name: d?.name || "Penyakit tidak diketahui",
-            description: d?.description || "",
-            treatment: d?.treatment || "",
-            cf: Number(r.cf.toFixed(3)),
-         };
-      });
-
-      this.log.info(`Diagnosis selesai: ${finalDiagnosis.length} hasil.`);
-      return finalDiagnosis;
+      return results
    }
 }
 
