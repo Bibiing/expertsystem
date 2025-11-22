@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Leaf,
-  Menu,
-  X,
-  Home,
-  Stethoscope,
-  ClipboardList,
-} from "lucide-react";
+import { Leaf, Menu, X, Home, Stethoscope, MessageSquare } from "lucide-react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,16 +11,14 @@ export default function Navbar() {
     { path: "/", label: "Dashboard", icon: Home },
     { path: "/konsultasi", label: "Konsultasi", icon: Stethoscope },
     // { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
+    { path: "/feedback", label: "Feedback", icon: MessageSquare },
   ];
 
   return (
     <nav className="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link
-            to="/"
-            className="flex items-center space-x-3 group"
-          >
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="bg-emerald-100 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
               <Leaf className="w-6 h-6 text-emerald-600" />
             </div>
@@ -50,8 +41,8 @@ export default function Navbar() {
                   key={link.path}
                   to={link.path}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                    isActive 
-                      ? "bg-emerald-50 text-emerald-700" 
+                    isActive
+                      ? "bg-emerald-50 text-emerald-700"
                       : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
                   }`}
                 >
@@ -91,8 +82,8 @@ export default function Navbar() {
                     setIsMenuOpen(false);
                   }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                    isActive 
-                      ? "bg-emerald-50 text-emerald-700" 
+                    isActive
+                      ? "bg-emerald-50 text-emerald-700"
                       : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
                   }`}
                 >

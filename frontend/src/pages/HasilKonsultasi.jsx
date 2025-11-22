@@ -251,6 +251,15 @@ function HasilDiagnosis() {
             </div>
           </motion.div>
         )}
+        {/* link to feedback */}
+        <motion.div variants={itemVariants} className="text-center mt-6">
+          <button
+            onClick={() => navigate("/feedback", { state: { from: "hasil" } })}
+            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors duration-300"
+          >
+            Berikan Feedback
+          </button>
+        </motion.div>
       </div>
     </motion.div>
   );
