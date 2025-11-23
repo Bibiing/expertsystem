@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Leaf, Menu, X, Home, Stethoscope, MessageSquare } from "lucide-react";
+import { Leaf, Menu, X, Home, Stethoscope, MessageSquare, BarChart2, BookOpen, Activity } from "lucide-react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,10 +8,13 @@ export default function Navbar() {
   const activeLink = location.pathname;
 
   const navLinks = [
-    { path: "/", label: "Dashboard", icon: Home },
-    { path: "/konsultasi", label: "Konsultasi", icon: Stethoscope },
-    // { path: "/hasil", label: "Hasil Diagnosis", icon: ClipboardList },
+    { path: "/konsultasi", label: "Diagnosa", icon: Stethoscope },
+    { path: "/statistik", label: "Statistik", icon: BarChart2 },
+    { path: "/aturan", label: "Aturan", icon: BookOpen },
+    { path: "/penyakit", label: "Penyakit", icon: Activity },
     { path: "/feedback", label: "Feedback", icon: MessageSquare },
+    // {path: "/hasil", label: "Hasil Diagnosa", icon: ClipboardList },
+    // { path: "/", label: "Beranda", icon: Home },
   ];
 
   return (

@@ -13,15 +13,16 @@ export const diagnosisService = {
   },
 
   // Mengirim gejala untuk didiagnosis
-  diagnose: async (selectedSymptomIds) => {
+  diagnose: async (symptoms) => {
     try {
       // Format payload sesuai permintaan backend:
       // { symptoms: [{ symptom_id: "S01", certainty: 1.0 }, ...] }
       const payload = {
-        symptoms: selectedSymptomIds.map((id) => ({
-          symptom_id: id,
-          certainty: 1.0, // Asumsi user yakin (1.0) jika memilih gejala
-        })),
+        symptoms: symptoms,
+        // symptoms: selectedSymptoms.map((id) => ({
+        //   symptom_id: id,
+        //   certainty: 1.0, // Asumsikan certainty 1.0 untuk setiap gejala yang dipilih
+        // })),
       };
 
       const response = await api.post("/diagnose", payload);

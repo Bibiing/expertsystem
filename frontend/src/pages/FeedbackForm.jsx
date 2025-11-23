@@ -7,10 +7,13 @@ import {
   User,
   Tag,
   FileText,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 import Accordion from "../components/Accordion";
 import feedbackService from "../services/feedbackService";
+import { infoService } from "../services/infoService";
 
 export default function FeedbackForm() {
   const [formData, setFormData] = useState({
@@ -24,6 +27,8 @@ export default function FeedbackForm() {
   const [selectedCategory, setSelectedCategory] = useState("semua");
   const [faqItems, setFaqItems] = useState([]);
   const [isLoadingFaq, setIsLoadingFaq] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const categories = [
     { value: "pujian", label: "Pujian" },
@@ -40,10 +45,9 @@ export default function FeedbackForm() {
     }));
   };
 
-  const loadFeedbacks = async () => {
+  const loadFeedbacks = async (page) => {
     try {
-      const response = await feedbackService.getAllFeedbacks();
-      console.log("Load feedbacks response:", response);
+      const response = await feedbackService.getAllFeedbacks(page);
       const feedbacks = response.data || [];
 
       const transformedFaq = feedbacks.map((feedback) => ({
@@ -62,6 +66,16 @@ export default function FeedbackForm() {
       setFaqItems([]);
     }
   };
+
+  const loadStats = async () => {
+      try {
+          const stats = await infoService.getStats();
+          const total = stats.data.totalFeedbacks;
+          setTotalPages(Math.ceil(total / 5));
+      } catch (error) {
+          console.error("Error loading stats:", error);
+      }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,7 +98,9 @@ export default function FeedbackForm() {
         setSubmitType("");
       }, 5000);
 
-      await loadFeedbacks();
+      setCurrentPage(1);
+      await loadFeedbacks(1);
+      await loadStats();
     } catch (error) {
       console.error("Error submitting feedback:", error);
       setSubmitMessage(
@@ -100,12 +116,13 @@ export default function FeedbackForm() {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       setIsLoadingFaq(true);
-      await loadFeedbacks();
+      await loadFeedbacks(currentPage);
+      await loadStats();
       setIsLoadingFaq(false);
     };
 
     fetchFeedbacks();
-  }, []);
+  }, [currentPage]);
 
   const getCategoryLabel = (value) => {
     const category = categories.find((cat) => cat.value === value);
@@ -313,7 +330,26 @@ export default function FeedbackForm() {
               <p className="text-slate-500 text-sm">Memuat feedback...</p>
             </div>
           ) : filteredFaqItems.length > 0 ? (
-            <Accordion items={filteredFaqItems} />
+            <>
+                <Accordion items={filteredFaqItems} />
+                <div className="flex justify-center items-center mt-6 gap-4">
+                    <button 
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="p-2 rounded-full hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-slate-600" />
+                    </button>
+                    <span className="text-slate-600 font-medium">Halaman {currentPage} dari {totalPages}</span>
+                    <button 
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="p-2 rounded-full hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <ChevronRight className="w-6 h-6 text-slate-600" />
+                    </button>
+                </div>
+            </>
           ) : (
             <div className="text-center py-8 sm:py-12 text-slate-500">
               <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-slate-300" />

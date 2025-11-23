@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stethoscope, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { Stethoscope, CheckCircle2, Loader2, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingOverlay from "../components/Loading";
 import { diagnosisService } from "../services/diagnosisService";
@@ -9,6 +9,8 @@ function Konsultasi() {
   const navigate = useNavigate();
   const [gejalaList, setGejalaList] = useState([]); // State untuk data dari API
   const [selectedGejala, setSelectedGejala] = useState([]);
+  const [certaintyValues, setCertaintyValues] = useState({});
+  const [expandedGejala, setExpandedGejala] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true); // Loading awal fetch gejala
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,11 +34,25 @@ function Konsultasi() {
   const handleCheckboxChange = (gejalaId) => {
     setSelectedGejala((prev) => {
       if (prev.includes(gejalaId)) {
+        const newCertainty = { ...certaintyValues };
+        delete newCertainty[gejalaId];
+        setCertaintyValues(newCertainty);
         return prev.filter((id) => id !== gejalaId);
       } else {
+        setCertaintyValues({ ...certaintyValues, [gejalaId]: 1.0 });
         return [...prev, gejalaId];
       }
     });
+  };
+
+  const handleCertaintyChange = (gejalaId, value) => {
+    setCertaintyValues({ ...certaintyValues, [gejalaId]: parseFloat(value) });
+  };
+
+  const toggleDescription = (e, gejalaId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedGejala(prev => ({ ...prev, [gejalaId]: !prev[gejalaId] }));
   };
 
   const handleSubmit = async () => {
@@ -48,7 +64,12 @@ function Konsultasi() {
     setIsLoading(true);
     try {
       // Kirim ke backend
-      const result = await diagnosisService.diagnose(selectedGejala);
+      const payload = selectedGejala.map(id => ({
+        symptom_id: id,
+        certainty: certaintyValues[id] || 0
+      }));
+
+      const result = await diagnosisService.diagnose(payload);
       
       // Siapkan data untuk halaman hasil
       // Kita perlu mengirim juga detail gejala yang dipilih untuk ditampilkan
@@ -69,14 +90,20 @@ function Konsultasi() {
   };
 
   const filteredGejala = gejalaList.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleSelectAll = () => {
     if (selectedGejala.length === gejalaList.length) {
       setSelectedGejala([]);
+      setCertaintyValues({});
     } else {
-      setSelectedGejala(gejalaList.map((g) => g._id));
+      const allIds = gejalaList.map((g) => g._id);
+      setSelectedGejala(allIds);
+      const newCertainty = {};
+      allIds.forEach(id => newCertainty[id] = 1.0);
+      setCertaintyValues(newCertainty);
     }
   };
 
@@ -121,8 +148,7 @@ function Konsultasi() {
               <ul className="text-emerald-50 text-xs sm:text-sm space-y-1">
                 <li>• Pilih semua gejala yang Anda amati pada tanaman</li>
                 <li>
-                  • Semakin banyak gejala yang dipilih, diagnosis akan lebih
-                  akurat
+                  • Tentukan tingkat keyakinan Anda (0 - 1)
                 </li>
                 <li className="hidden sm:list-item">
                   • Perhatikan gejala dengan teliti sebelum memilih
@@ -168,42 +194,75 @@ function Konsultasi() {
             </p>
           </div>
 
-          <div className="space-y-2 mb-4 sm:mb-6 max-h-[400px] sm:max-h-[500px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
+          <div className="space-y-2 mb-4 sm:mb-6 max-h-[600px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
             {filteredGejala.map((item) => (
-              <motion.label
+              <motion.div
                 layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 key={item._id}
-                className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg cursor-pointer transition-all duration-300 border ${
+                className={`rounded-lg transition-all duration-300 border ${
                   selectedGejala.includes(item._id)
                     ? "bg-emerald-50 border-emerald-500 shadow-sm"
                     : "bg-white border-slate-100 hover:bg-slate-50 hover:border-emerald-200"
                 }`}
               >
-                <div className="flex items-center h-5 sm:h-6 shrink-0">
-                  <input
-                    type="checkbox"
-                    checked={selectedGejala.includes(item._id)}
-                    onChange={() => handleCheckboxChange(item._id)}
-                    className="w-4 h-4 sm:w-5 sm:h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                  />
+                <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 cursor-pointer" onClick={() => handleCheckboxChange(item._id)}>
+                    <div className="flex items-center h-5 sm:h-6 shrink-0">
+                    <input
+                        type="checkbox"
+                        checked={selectedGejala.includes(item._id)}
+                        onChange={() => handleCheckboxChange(item._id)}
+                        className="w-4 h-4 sm:w-5 sm:h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                    <p className={`text-xs sm:text-sm leading-relaxed wrap-break-word ${selectedGejala.includes(item._id) ? 'text-emerald-900 font-medium' : 'text-slate-700'}`}>
+                        {item.name}
+                    </p>
+                    </div>
+                    <button onClick={(e) => toggleDescription(e, item._id)} className="text-slate-400 hover:text-emerald-600">
+                        {expandedGejala[item._id] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                    </button>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className={`text-xs sm:text-sm leading-relaxed wrap-break-word ${selectedGejala.includes(item._id) ? 'text-emerald-900 font-medium' : 'text-slate-700'}`}>
-                    {item.name}
-                  </p>
-                </div>
+                
+                <AnimatePresence>
+                    {expandedGejala[item._id] && (
+                        <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="px-4 pb-4 pl-12 text-sm text-slate-600"
+                        >
+                            {item.description || "Tidak ada deskripsi."}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 {selectedGejala.includes(item._id) && (
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    className="px-4 pb-4 pl-12"
                   >
-                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 shrink-0" />
+                    <div className="flex items-center gap-4">
+                        <label className="text-xs font-medium text-slate-700 whitespace-nowrap">Keyakinan: {certaintyValues[item._id]}</label>
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="1" 
+                            step="0.1" 
+                            value={certaintyValues[item._id] || 1} 
+                            onChange={(e) => handleCertaintyChange(item._id, e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+                        />
+                    </div>
                   </motion.div>
                 )}
-              </motion.label>
+              </motion.div>
             ))}
 
             {filteredGejala.length === 0 && (

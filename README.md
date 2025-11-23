@@ -35,12 +35,12 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda.
     ```
 3.  **PENTING**: Masukkan data awal (penyakit & gejala) ke database:
     ```bash
-    npm run seed
+    pnpm seed
     ```
     *Pastikan MongoDB sudah berjalan sebelum menjalankan perintah ini.*
 4.  Jalankan server:
     ```bash
-    npm start
+    pnpm start
     ```
     Server akan berjalan di `http://localhost:3000`.
 

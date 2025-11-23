@@ -201,7 +201,7 @@ function HasilDiagnosis() {
         )}
 
         {/* Kemungkinan Lain */}
-        {diagnosisResult.length > 1 && (
+        {diseases.length > 1 && (
           <motion.div
             variants={itemVariants}
             className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 mb-4 sm:mb-6"
@@ -211,7 +211,7 @@ function HasilDiagnosis() {
               Kemungkinan Penyakit Lain
             </h2>
             <div className="space-y-3 sm:space-y-4">
-              {diagnosisResult.slice(1).map((penyakit, index) => (
+              {diseases.slice(1).map((penyakit, index) => (
                 <motion.div
                   key={penyakit.id}
                   initial={{ opacity: 0, x: -20 }}
