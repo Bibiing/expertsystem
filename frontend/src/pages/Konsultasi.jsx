@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stethoscope, CheckCircle2, Loader2, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Stethoscope, CheckCircle2, Loader2, AlertCircle, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingOverlay from "../components/Loading";
 import { diagnosisService } from "../services/diagnosisService";
@@ -32,17 +32,24 @@ function Konsultasi() {
   }, []);
 
   const handleCheckboxChange = (gejalaId) => {
-    setSelectedGejala((prev) => {
-      if (prev.includes(gejalaId)) {
-        const newCertainty = { ...certaintyValues };
-        delete newCertainty[gejalaId];
-        setCertaintyValues(newCertainty);
-        return prev.filter((id) => id !== gejalaId);
-      } else {
-        setCertaintyValues({ ...certaintyValues, [gejalaId]: 1.0 });
-        return [...prev, gejalaId];
-      }
-    });
+    const isSelected = selectedGejala.includes(gejalaId);
+
+    if (isSelected) {
+      setSelectedGejala((prev) => prev.filter((id) => id !== gejalaId));
+
+      const newCertainty = { ...certaintyValues };
+      delete newCertainty[gejalaId];
+      setCertaintyValues(newCertainty);
+
+      // Close description when unchecked
+      setExpandedGejala((prev) => ({ ...prev, [gejalaId]: false }));
+    } else {
+      setSelectedGejala((prev) => [...prev, gejalaId]);
+      setCertaintyValues({ ...certaintyValues, [gejalaId]: 1.0 });
+
+      // Auto expand when selected
+      setExpandedGejala((prev) => ({ ...prev, [gejalaId]: true }));
+    }
   };
 
   const handleCertaintyChange = (gejalaId, value) => {
@@ -156,6 +163,14 @@ function Konsultasi() {
               </ul>
             </div>
           </div>
+          
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-emerald-100 hover:text-white transition-colors duration-300 text-sm sm:text-base mt-4"
+          >
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span>Kembali ke Dashboard</span>
+          </button>
         </motion.div>
 
         <motion.div 
@@ -182,6 +197,30 @@ function Konsultasi() {
                 ? "Hapus Semua"
                 : "Pilih Semua"}
             </button>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleSubmit}
+              disabled={isLoading || selectedGejala.length === 0}
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${
+                isLoading || selectedGejala.length === 0
+                  ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                  : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl"
+              }`}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Proses...</span>
+                </>
+              ) : (
+                <>
+                  <Stethoscope className="w-5 h-5" />
+                  <span>Mulai Diagnosis</span>
+                </>
+              )}
+            </motion.button>
           </div>
 
           <div className="mb-3 sm:mb-4 flex items-center justify-between">
@@ -234,34 +273,41 @@ function Konsultasi() {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            className="px-4 pb-4 pl-12 text-sm text-slate-600"
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
                         >
-                            {item.description || "Tidak ada deskripsi."}
+                            <div className="px-4 pb-4 pl-12 space-y-3">
+                                <p className="text-sm text-slate-600">
+                                    {item.description || "Tidak ada deskripsi."}
+                                </p>
+
+                                {selectedGejala.includes(item._id) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="pt-2 border-t border-slate-100"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <label className="text-xs font-medium text-slate-700 whitespace-nowrap">
+                                                Keyakinan: {certaintyValues[item._id] || 1}
+                                            </label>
+                                            <input 
+                                                type="range" 
+                                                min="0" 
+                                                max="1" 
+                                                step="0.1" 
+                                                value={certaintyValues[item._id] || 1} 
+                                                onChange={(e) => handleCertaintyChange(item._id, e.target.value)}
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+                                            />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
-
-                {selectedGejala.includes(item._id) && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    className="px-4 pb-4 pl-12"
-                  >
-                    <div className="flex items-center gap-4">
-                        <label className="text-xs font-medium text-slate-700 whitespace-nowrap">Keyakinan: {certaintyValues[item._id]}</label>
-                        <input 
-                            type="range" 
-                            min="0" 
-                            max="1" 
-                            step="0.1" 
-                            value={certaintyValues[item._id] || 1} 
-                            onChange={(e) => handleCertaintyChange(item._id, e.target.value)}
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
-                        />
-                    </div>
-                  </motion.div>
-                )}
               </motion.div>
             ))}
 
@@ -273,32 +319,6 @@ function Konsultasi() {
               </div>
             )}
           </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleSubmit}
-            disabled={isLoading || selectedGejala.length === 0}
-            className={`w-full py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 ${
-              isLoading || selectedGejala.length === 0
-                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-            }`}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
-                <span className="text-sm sm:text-lg">
-                  Memproses Diagnosis...
-                </span>
-              </>
-            ) : (
-              <>
-                <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6" />
-                <span className="text-sm sm:text-lg">Mulai Diagnosis</span>
-              </>
-            )}
-          </motion.button>
         </motion.div>
       </div>
 

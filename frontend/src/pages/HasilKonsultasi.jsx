@@ -81,13 +81,15 @@ function HasilDiagnosis() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => navigate("/konsultasi")}
-            className="flex items-center gap-2 text-emerald-100 hover:text-white transition-colors duration-300 text-sm sm:text-base"
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>Konsultasi Ulang</span>
-          </button>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <button
+              onClick={() => navigate("/konsultasi")}
+              className="flex items-center gap-2 text-emerald-100 hover:text-white transition-colors duration-300 text-sm sm:text-base"
+            >
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>Konsultasi Ulang</span>
+            </button>
+          </div>
         </motion.div>
 
         {/* Gejala Yang Dipilih */}
@@ -139,10 +141,10 @@ function HasilDiagnosis() {
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-emerald-800 mb-3">
                   {topDisease.name}
                 </h3>
-                <div className="flex flex-wrap gap-3 sm:gap-4">
+                <div className="flex flex-wrap gap-3 sm:gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-500 text-xs sm:text-sm">
-                      Nilai CF:
+                      Keyakinan:
                     </span>
                     <span className="bg-emerald-100 text-emerald-700 px-2 sm:px-3 py-1 rounded-full font-semibold text-xs sm:text-sm">
                       {topDisease.cf}
@@ -157,6 +159,12 @@ function HasilDiagnosis() {
                     </span>
                   </div>
                 </div>
+                <button
+                  onClick={() => navigate("/feedback", { state: { from: "hasil" } })}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 font-semibold px-4 py-2 rounded-lg shadow-sm transition-colors duration-300 text-sm"
+                >
+                  Berikan Feedback
+                </button>
               </div>
             </motion.div>
 
@@ -251,15 +259,6 @@ function HasilDiagnosis() {
             </div>
           </motion.div>
         )}
-        {/* link to feedback */}
-        <motion.div variants={itemVariants} className="text-center mt-6">
-          <button
-            onClick={() => navigate("/feedback", { state: { from: "hasil" } })}
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors duration-300"
-          >
-            Berikan Feedback
-          </button>
-        </motion.div>
       </div>
     </motion.div>
   );

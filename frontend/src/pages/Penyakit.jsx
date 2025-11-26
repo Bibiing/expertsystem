@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { infoService } from "../services/infoService";
 import { diagnosisService } from "../services/diagnosisService";
 import Loading from "../components/Loading";
-import { ChevronDown } from "lucide-react";
 
 export default function Penyakit() {
   const [diseases, setDiseases] = useState([]);
@@ -54,8 +53,13 @@ export default function Penyakit() {
   if (error) return <div className="text-center text-red-500 mt-10">{error}</div>;
 
   return (
-    <div className="space-y-8 py-8">
-      <h1 className="text-3xl font-bold text-slate-800 text-center">Informasi Penyakit</h1>
+    <div className="space-y-8 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+          Informasi Penyakit
+        </h1>
+        <p className="mt-2 text-slate-600">Detail lengkap mengenai penyakit dan cara penanganannya</p>
+      </div>
 
       <div className="max-w-xl mx-auto">
         <label className="block text-sm font-medium text-slate-700 mb-2">Pilih Penyakit</label>
