@@ -82,13 +82,6 @@ class CertaintyFactor {
       return { result, explanation };
    }
 
-   /**
-    * Mengupdate state hipotesis dengan XAI  
-    * menghasilkan:
-    * - MB_new  
-    * - MD_new  
-    * - penjelasan langkah demi langkah
-    */
    static updateHypothesisState_XAI(currentState, MB_user, MD_user) {
       const steps = [];
 

@@ -34,14 +34,13 @@ export default function Dashboard() {
           variants={containerVariants}
           className="relative rounded-2xl p-8 md:p-12 mb-12 shadow-xl overflow-hidden group"
         >
-          {/* Background Image & Overlay */}
           <div className="absolute inset-0 z-0">
             <img 
-              src="/images/background.jpg" 
-              alt="Chili Background" 
+              src="images/dashboard.jpg" 
+              alt="Background" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/60 to-emerald-800/80 backdrop-blur-[1px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/70 to-emerald-800/80 backdrop-blur-[0.5px]" />
           </div>
 
           <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl z-0"></div>

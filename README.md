@@ -1,8 +1,8 @@
-# Sistem Pakar Diagnosis Penyakit Tanaman Cabai 
+# Sistem Pakar Diagnosis Penyakit Tanaman Cabai
 
-Selamat datang di repositori **Sistem Pakar Diagnosis Penyakit Tanaman Cabai**. Project ini adalah aplikasi berbasis web yang dirancang untuk membantu petani maupun penghobi tanaman cabai dalam mengidentifikasi penyakit pada tanaman mereka secara dini dan akurat menggunakan metode **Certainty Factor**.
+Selamat datang di repositori Sistem Pakar Diagnosis Penyakit Tanaman Cabai. Project ini adalah aplikasi berbasis web yang dirancang untuk membantu petani maupun penghobi tanaman cabai dalam mengidentifikasi penyakit pada tanaman mereka secara dini dan akurat menggunakan metode Certainty Factor.
 
-## Nama Anggota Kelompok 
+## Nama Anggota Kelompok
 
 | Nama | NRP | Pembagian Tugas |
 |------|-----|-----------------|
@@ -13,58 +13,87 @@ Selamat datang di repositori **Sistem Pakar Diagnosis Penyakit Tanaman Cabai**. 
 
 ---
 
-## Referensi Jurnal 
+## Referensi Jurnal
 
 [KLIK: Untuk melihat jurnal "Sistem Pakar Diagnosis Penyakit Tanaman Cabai"](https://digilib.pnc.ac.id/index.php?p=fstream-pdf&fid=633&bid=33479)
 
-## Cara Menjalankan Project
+---
+
+## Struktur Project (Monorepo)
+
+Project ini telah dikonfigurasi untuk berjalan sebagai satu kesatuan (Monorepo).
+
+- **Root**: Mengatur dependensi gabungan dan script utama.
+- **backend/**: Kode backend (Fastify).
+- **frontend/**: Kode frontend (React + Vite).
+- **api/**: Entry point untuk Vercel Serverless Function.
+
+## Cara Menjalankan di Lokal
 
 Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda. Pastikan sudah menginstall **Node.js** dan **MongoDB**.
 
-### 1. Persiapan Backend (Server)
+### 1. Instalasi Dependensi
 
-1.  Buka terminal dan masuk ke folder `backend`:
-    ```bash
-    cd backend
-    ```
-2.  Install dependencies:
-    ```bash
-    pnpm install
-    # atau
-    npm install
-    ```
-3.  **PENTING**: Masukkan data awal (penyakit & gejala) ke database:
-    ```bash
-    npm run seed
-    ```
-    *Pastikan MongoDB sudah berjalan sebelum menjalankan perintah ini.*
-4.  Jalankan server:
-    ```bash
-    npm start
-    ```
-    Server akan berjalan di `http://localhost:3000`.
+Jalankan perintah berikut di root folder untuk menginstall dependensi backend dan frontend sekaligus:
 
-### 2. Persiapan Frontend (Tampilan)
+```bash
+pnpm install
+```
 
-1.  Buka terminal baru (jangan matikan terminal backend), masuk ke folder `frontend`:
-    ```bash
-    cd frontend
-    ```
-2.  Install dependencies:
-    ```bash
-    pnpm install
-    ```
-3.  Jalankan aplikasi:
-    ```bash
-    pnpm dev
-    ```
-4.  Buka browser dan akses alamat yang muncul (biasanya `http://localhost:5173`).
+### 2. Konfigurasi Environment
+
+Pastikan Anda memiliki file `.env` di folder `backend` dengan konfigurasi database MongoDB Anda.
+
+Contoh `backend/.env`:
+```env
+MONGODB_URI="mongodb+srv://..."
+```
+
+### 3. Isi Data Awal (Seeding)
+
+Masukkan data penyakit dan gejala ke database:
+
+```bash
+pnpm seed
+```
+
+### 4. Menjalankan Aplikasi
+
+Untuk menjalankan Frontend dan Backend secara bersamaan dalam mode development:
+
+```bash
+pnpm dev
+```
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3001
+
+---
+
+## Panduan Deployment ke Vercel
+
+Project ini siap dideploy ke Vercel sebagai satu project tunggal.
+
+1.  Push kode ke GitHub.
+2.  Buka Vercel dan "Add New Project".
+3.  Import repository GitHub Anda.
+4.  **Konfigurasi Project**:
+    - **Framework Preset**: Vite.
+    - **Root Directory**: `.` (root).
+    - **Build Command**: `pnpm build` (atau `cd frontend && pnpm run build`).
+    - **Output Directory**: `frontend/dist`.
+    - **Environment Variables**:
+        - `MONGODB_URI`: Connection string MongoDB Atlas Anda.
+        - `VITE_API_BASE_URL`: `/api/v1`
+5.  Deploy.
+
+Aplikasi akan berjalan di domain Vercel Anda (contoh: `https://certaintyfactordiagnosis.vercel.app`).
 
 ---
 
 ## Penjelasan Metode Certainty Factor (CF)
 
-Sistem ini menggunakan algoritma **Certainty Factor (CF)** untuk meniru cara berpikir seorang pakar dalam mendiagnosis penyakit dengan tingkat keyakinan tertentu.
+Sistem ini menggunakan algoritma Certainty Factor (CF) untuk meniru cara berpikir seorang pakar dalam mendiagnosis penyakit dengan tingkat keyakinan tertentu.
 
 ### Apa itu MB, MD, dan CF?
 
@@ -72,12 +101,10 @@ Dalam sistem pakar ini, setiap gejala memiliki bobot keyakinan terhadap suatu pe
 
 1.  **MB (Measure of Belief)**
     *   **Definisi**: Ukuran kenaikan kepercayaan (keyakinan) terhadap hipotesis (penyakit) jika diberikan bukti (gejala) tertentu.
-    *   **Sederhananya**: Seberapa yakin pakar bahwa "Jika ada gejala X, maka penyakitnya adalah Y".
     *   **Rentang Nilai**: 0 sampai 1.
 
 2.  **MD (Measure of Disbelief)**
     *   **Definisi**: Ukuran kenaikan ketidakpercayaan terhadap hipotesis jika diberikan bukti tertentu.
-    *   **Sederhananya**: Seberapa yakin pakar bahwa gejala tersebut *bukan* disebabkan oleh penyakit lain, atau tingkat keraguan pakar.
     *   **Rentang Nilai**: 0 sampai 1.
 
 3.  **CF (Certainty Factor)**
@@ -85,24 +112,16 @@ Dalam sistem pakar ini, setiap gejala memiliki bobot keyakinan terhadap suatu pe
     *   **Rumus Dasar**:
         $$CF = MB - MD$$
     *   **Rentang Nilai**: -1 sampai 1.
-        *   Nilai mendekati **1** berarti **Sangat Yakin**.
-        *   Nilai mendekati **-1** berarti **Sangat Yakin Tidak**.
-        *   Nilai **0** berarti **Tidak Tahu**.
 
-### Bagaimana Perhitungannya dalam Sistem?
+### Perhitungan dalam Sistem
 
 Ketika user memilih lebih dari satu gejala, sistem menggunakan **Aturan Kombinasi (Parallel Combination Rule)**:
 
 1.  **Hitung CF untuk setiap gejala**:
     $$CF_{gejala} = MB_{gejala} - MD_{gejala}$$
-    *(Dikali dengan bobot user jika ada input tingkat keyakinan user)*
 
 2.  **Gabungkan CF (CF Combine)**:
-    Jika ada gejala 1 dan gejala 2, maka CF gabungan dihitung bertahap:
-    
     $$CF_{old} + CF_{new} \times (1 - CF_{old})$$
-    
-    Proses ini diulang terus menerus untuk semua gejala yang dipilih user hingga didapatkan nilai CF Final untuk setiap penyakit.
 
 3.  **Hasil Akhir**:
     Penyakit dengan nilai CF Final tertinggi akan ditampilkan sebagai hasil diagnosis utama.
@@ -121,10 +140,10 @@ expertsystem/
 │   │   └── seed/        # Data awal sistem
 ├── frontend/        # Tampilan Web React
 │   ├── src/
-│   │   ├── components/  # Komponen UI (Navbar, Card, dll)
-│   │   ├── pages/       # Halaman (Dashboard, Konsultasi, Hasil)
+│   │   ├── components/  # Komponen UI
+│   │   ├── pages/       # Halaman Web
 │   │   └── services/    # Koneksi ke Backend API
-└── README.md        # Dokumentasi ini
+└── api/             # Adapter Vercel Serverless
 ```
 
 ---

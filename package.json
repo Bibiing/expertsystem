@@ -1,0 +1,50 @@
+{
+  "name": "expertsystem-monorepo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev:backend\" \"pnpm run dev:frontend\"",
+    "dev:backend": "cd backend && pnpm run dev",
+    "dev:frontend": "cd frontend && pnpm run dev",
+    "build": "cd frontend && pnpm run build",
+    "start": "concurrently \"pnpm run start:backend\" \"pnpm run start:frontend\"",
+    "start:backend": "cd backend && pnpm start",
+    "start:frontend": "cd frontend && pnpm run preview",
+    "seed": "cd backend && pnpm run seed",
+    "postinstall": "cd backend && pnpm install && cd ../frontend && pnpm install"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "@tailwindcss/vite": "^4.1.17",
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.6.2",
+    "fastify-cors": "^6.1.0",
+    "fastify-env": "^2.2.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.553.0",
+    "mongoose": "^8.19.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.5",
+    "recharts": "^3.5.0",
+    "tailwindcss": "^4.1.17",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
+    "globals": "^16.4.0",
+    "nodemon": "^3.1.11",
+    "pino-pretty": "^13.1.2",
+    "vite": "^7.1.7"
+  }
+}
