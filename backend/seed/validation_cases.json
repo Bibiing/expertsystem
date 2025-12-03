@@ -1,0 +1,342 @@
+[
+  {
+    "id": 1,
+    "expectedDisease": "Antraknosa",
+    "description": "Kasus khas antraknosa dengan buah busuk basah dan bercak hitam",
+    "symptoms": [
+      {
+        "symptom_id": "S001",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S003",
+        "certainty": 0.8
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 2,
+    "expectedDisease": "Antraknosa",
+    "description": "Antraknosa dengan semua gejala",
+    "symptoms": [
+      {
+        "symptom_id": "S001",
+        "certainty": 0.9
+      },
+      {
+        "symptom_id": "S002",
+        "certainty": 0.8
+      },
+      {
+        "symptom_id": "S003",
+        "certainty": 0.85
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 3,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "Bercak daun dengan gejala khas bulat abu-abu",
+    "symptoms": [
+      {
+        "symptom_id": "S005",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S004",
+        "certainty": 0.7
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 4,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "Hanya bercak bulat saja (gejala utama)",
+    "symptoms": [
+      {
+        "symptom_id": "S005",
+        "certainty": 0.95
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 5,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Layu fusarium dengan kedua gejala",
+    "symptoms": [
+      {
+        "symptom_id": "S006",
+        "certainty": 0.8
+      },
+      {
+        "symptom_id": "S007",
+        "certainty": 0.9
+      }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 6,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "Busuk buah dengan bercak basah dan buah kering",
+    "symptoms": [
+      {
+        "symptom_id": "S008",
+        "certainty": 0.85
+      },
+      {
+        "symptom_id": "S009",
+        "certainty": 0.9
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 7,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Bengkak akar dengan kutil pada akar",
+    "symptoms": [
+      {
+        "symptom_id": "S010",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S011",
+        "certainty": 0.7
+      },
+      {
+        "symptom_id": "S012",
+        "certainty": 0.6
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 8,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "Busuk daun dengan pucuk coklat membusuk",
+    "symptoms": [
+      {
+        "symptom_id": "S013",
+        "certainty": 0.9
+      },
+      {
+        "symptom_id": "S006",
+        "certainty": 0.7
+      },
+      {
+        "symptom_id": "S014",
+        "certainty": 0.8
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 9,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Kerupuk dengan daun menumpuk dan kerdil",
+    "symptoms": [
+      {
+        "symptom_id": "S015",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S012",
+        "certainty": 0.8
+      },
+      {
+        "symptom_id": "S016",
+        "certainty": 0.9
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 10,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Kerupuk dengan semua gejala lengkap",
+    "symptoms": [
+      {
+        "symptom_id": "S015",
+        "certainty": 0.95
+      },
+      {
+        "symptom_id": "S012",
+        "certainty": 0.7
+      },
+      {
+        "symptom_id": "S016",
+        "certainty": 0.85
+      },
+      {
+        "symptom_id": "S017",
+        "certainty": 0.9
+      }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 11,
+    "expectedDisease": "Layu Bakteri",
+    "description": "Layu bakteri dengan gejala khas",
+    "symptoms": [
+      {
+        "symptom_id": "S007",
+        "certainty": 0.9
+      },
+      {
+        "symptom_id": "S014",
+        "certainty": 0.8
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 12,
+    "expectedDisease": "Virus Kuning",
+    "description": "Virus kuning dengan daun menguning dan mengeriting",
+    "symptoms": [
+      {
+        "symptom_id": "S030",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S031",
+        "certainty": 0.9
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 13,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Hama tungau dengan daun kaku melengkung",
+    "symptoms": [
+      {
+        "symptom_id": "S027",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S028",
+        "certainty": 0.85
+      },
+      {
+        "symptom_id": "S026",
+        "certainty": 0.7
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 14,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Hama tungau dengan semua gejala",
+    "symptoms": [
+      {
+        "symptom_id": "S026",
+        "certainty": 0.9
+      },
+      {
+        "symptom_id": "S027",
+        "certainty": 0.95
+      },
+      {
+        "symptom_id": "S028",
+        "certainty": 0.8
+      },
+      {
+        "symptom_id": "S029",
+        "certainty": 0.85
+      }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 15,
+    "expectedDisease": "Hama Thrips",
+    "description": "Hama thrips dengan daun keriput mengeriting",
+    "symptoms": [
+      {
+        "symptom_id": "S019",
+        "certainty": 1.0
+      },
+      {
+        "symptom_id": "S018",
+        "certainty": 0.8
+      }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 16,
+    "expectedDisease": "Antraknosa",
+    "description": "Kasus ambiguous - buah busuk tapi CF rendah",
+    "symptoms": [
+      {
+        "symptom_id": "S001",
+        "certainty": 0.5
+      }
+    ],
+    "minExpectedCF": 0.3
+  },
+  {
+    "id": 17,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Hanya kutil akar (gejala paling kuat)",
+    "symptoms": [
+      {
+        "symptom_id": "S010",
+        "certainty": 0.95
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 18,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Konflik dengan Busuk Daun (batang membusuk ada di keduanya)",
+    "symptoms": [
+      {
+        "symptom_id": "S006",
+        "certainty": 0.7
+      },
+      {
+        "symptom_id": "S007",
+        "certainty": 0.85
+      }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 19,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Konflik dengan Bengkak Akar (tanaman kerdil ada di keduanya)",
+    "symptoms": [
+      {
+        "symptom_id": "S012",
+        "certainty": 0.6
+      },
+      {
+        "symptom_id": "S015",
+        "certainty": 0.95
+      }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 20,
+    "expectedDisease": "Virus Kuning",
+    "description": "Hanya daun menguning dengan CF tinggi",
+    "symptoms": [
+      {
+        "symptom_id": "S030",
+        "certainty": 0.95
+      }
+    ],
+    "minExpectedCF": 0.6
+  }
+]

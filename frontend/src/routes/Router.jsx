@@ -1,13 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
-import KonsultasiForm from "../pages/Konsultasi";
-import HasilKonsultasi from "../pages/HasilKonsultasi";
-import FeedbackForm from "../pages/FeedbackForm";
-import Statistik from "../pages/Statistik";
-import Aturan from "../pages/Aturan";
-import Penyakit from "../pages/Penyakit";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from '../pages/Dashboard';
+import KonsultasiForm from '../pages/Konsultasi';
+import HasilKonsultasi from '../pages/HasilKonsultasi';
+import FeedbackForm from '../pages/FeedbackForm';
+import Statistik from '../pages/Statistik';
+import Aturan from '../pages/Aturan';
+import Penyakit from '../pages/Penyakit';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Validation from '../pages/Validation';
 
 export default function AppRouter() {
   return (
@@ -98,6 +99,19 @@ export default function AppRouter() {
               <Navbar />
               <main className="max-w-6xl mx-auto w-full px-4">
                 <Penyakit />
+              </main>
+              <Footer />
+            </div>
+          }
+        />
+
+        <Route
+          path="/validation"
+          element={
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="max-w-6xl mx-auto w-full px-4">
+                <Validation />
               </main>
               <Footer />
             </div>

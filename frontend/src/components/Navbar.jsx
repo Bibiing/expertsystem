@@ -45,8 +45,8 @@ export default function Navbar() {
                   to={link.path}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
                     isActive
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-600'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -70,7 +70,7 @@ export default function Navbar() {
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-96 opacity-100 pb-4" : "max-h-0 opacity-0"
+            isMenuOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="space-y-2 pt-2">
@@ -86,8 +86,8 @@ export default function Navbar() {
                   }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-600'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
