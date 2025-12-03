@@ -338,5 +338,798 @@
       }
     ],
     "minExpectedCF": 0.6
+  },
+  {
+    "id": 21,
+    "expectedDisease": "Ulat Grayak",
+    "description": "Gejala tunggal spesifik: lubang pada buah",
+    "symptoms": [
+      { "symptom_id": "S021", "certainty": 1.0 }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 22,
+    "expectedDisease": "Ulat Grayak",
+    "description": "Tanaman gundul dan berlubang (serangan parah)",
+    "symptoms": [
+      { "symptom_id": "S021", "certainty": 0.8 },
+      { "symptom_id": "S022", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 23,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "Titik hitam di pangkal buah (gejala kunci)",
+    "symptoms": [
+      { "symptom_id": "S024", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 24,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "Buah rontok dan busuk basah (kombinasi D13 dan D01, tapi dominan D13 via S023)",
+    "symptoms": [
+      { "symptom_id": "S023", "certainty": 0.8 },
+      { "symptom_id": "S001", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 25,
+    "expectedDisease": "Hama Kutu Daun (Aphid)",
+    "description": "Daun keriput kekuningan dominan",
+    "symptoms": [
+      { "symptom_id": "S025", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 26,
+    "expectedDisease": "Hama Kutu Daun (Aphid)",
+    "description": "Tanaman kerdil disertai daun keriput kuning",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.7 },
+      { "symptom_id": "S025", "certainty": 0.85 }
+    ],
+    "minExpectedCF": 0.65
+  },
+  {
+    "id": 27,
+    "expectedDisease": "Layu Bakteri",
+    "description": "Layu pucuk (S007) dan batang terkelupas (S014) - Konflik dengan D03/D06 tapi pola D08",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.9 },
+      { "symptom_id": "S014", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 28,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "Pucuk coklat membusuk (S013) sangat dominan",
+    "symptoms": [
+      { "symptom_id": "S013", "certainty": 0.95 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 29,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "Kompleks gejala busuk daun lengkap",
+    "symptoms": [
+      { "symptom_id": "S013", "certainty": 0.8 },
+      { "symptom_id": "S006", "certainty": 0.7 },
+      { "symptom_id": "S014", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 30,
+    "expectedDisease": "Hama Thrips",
+    "description": "Daun coklat tembaga (S018) dan keriput ke atas (S019)",
+    "symptoms": [
+      { "symptom_id": "S018", "certainty": 0.8 },
+      { "symptom_id": "S019", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 31,
+    "expectedDisease": "Hama Thrips",
+    "description": "Pertumbuhan terhambat pucuk mati (S020) dengan input user ragu-ragu",
+    "symptoms": [
+      { "symptom_id": "S020", "certainty": 0.5 },
+      { "symptom_id": "S019", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.4
+  },
+  {
+    "id": 32,
+    "expectedDisease": "Virus Kuning",
+    "description": "Daun keriting ke atas (S031) sangat jelas",
+    "symptoms": [
+      { "symptom_id": "S031", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 33,
+    "expectedDisease": "Virus Kuning",
+    "description": "Kombinasi kuning dan keriting ke atas (gejala lengkap)",
+    "symptoms": [
+      { "symptom_id": "S030", "certainty": 0.9 },
+      { "symptom_id": "S031", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.8
+  },
+  {
+    "id": 34,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "Hanya gejala bercak hijau suram (S008)",
+    "symptoms": [
+      { "symptom_id": "S008", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 35,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "Buah kering keriput (S009) dan bercak basah",
+    "symptoms": [
+      { "symptom_id": "S009", "certainty": 0.85 },
+      { "symptom_id": "S008", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 36,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Batang membusuk (S006) saja, overlap dengan Choanephora tapi testing rule D03",
+    "symptoms": [
+      { "symptom_id": "S006", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.45
+  },
+  {
+    "id": 37,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Daun hijau pekat (S017) dan melengkung ke bawah (S016)",
+    "symptoms": [
+      { "symptom_id": "S017", "certainty": 0.9 },
+      { "symptom_id": "S016", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 38,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Daun menumpuk (S015) dengan kepastian sedang",
+    "symptoms": [
+      { "symptom_id": "S015", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.4
+  },
+  {
+    "id": 39,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "Daun menguning dini (S004) dan bercak (S005)",
+    "symptoms": [
+      { "symptom_id": "S004", "certainty": 0.8 },
+      { "symptom_id": "S005", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 40,
+    "expectedDisease": "Antraknosa",
+    "description": "Gejala S002 (ranting busuk kering) dominan",
+    "symptoms": [
+      { "symptom_id": "S002", "certainty": 0.95 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 41,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Tanaman layu total (S011) dan kerdil (S012)",
+    "symptoms": [
+      { "symptom_id": "S011", "certainty": 0.8 },
+      { "symptom_id": "S012", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 42,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Tunas gugur (S026) dan daun bentuk abnormal (S029)",
+    "symptoms": [
+      { "symptom_id": "S026", "certainty": 0.8 },
+      { "symptom_id": "S029", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 43,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Permukaan bawah daun tembaga (S028)",
+    "symptoms": [
+      { "symptom_id": "S028", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 44,
+    "expectedDisease": "Antraknosa",
+    "description": "User ragu-ragu: Bercak hitam (S003) dan busuk basah (S001) kepastian rendah",
+    "symptoms": [
+      { "symptom_id": "S003", "certainty": 0.4 },
+      { "symptom_id": "S001", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.3
+  },
+  {
+    "id": 45,
+    "expectedDisease": "Layu Bakteri",
+    "description": "Konflik gejala: Layu pucuk (D08) kuat, tapi ada bercak daun (D02) lemah",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.9 },
+      { "symptom_id": "S005", "certainty": 0.2 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 46,
+    "expectedDisease": "Ulat Grayak",
+    "description": "Lubang tak beraturan (S021) dengan kepastian medium",
+    "symptoms": [
+      { "symptom_id": "S021", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.3
+  },
+  {
+    "id": 47,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "Titik hitam (S024) dan busuk basah (S001) sangat yakin",
+    "symptoms": [
+      { "symptom_id": "S024", "certainty": 1.0 },
+      { "symptom_id": "S001", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.8
+  },
+  {
+    "id": 48,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "Hanya batang membusuk (S006) dan kulit terkelupas (S014)",
+    "symptoms": [
+      { "symptom_id": "S006", "certainty": 0.7 },
+      { "symptom_id": "S014", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 49,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Daun menumpuk (S015) dan keriting bawah (S016) gejala parsial",
+    "symptoms": [
+      { "symptom_id": "S015", "certainty": 0.7 },
+      { "symptom_id": "S016", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 50,
+    "expectedDisease": "Virus Kuning",
+    "description": "User melaporkan S030 (Kuning) 0.5 dan S031 (Keriting atas) 0.5",
+    "symptoms": [
+      { "symptom_id": "S030", "certainty": 0.5 },
+      { "symptom_id": "S031", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.4
+  },
+  {
+    "id": 51,
+    "expectedDisease": "Hama Thrips",
+    "description": "Daun keriput melengkung ke atas (S019) saja",
+    "symptoms": [
+      { "symptom_id": "S019", "certainty": 0.85 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 52,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Daun kaku melengkung ke bawah (S027) dan bawah daun tembaga (S028)",
+    "symptoms": [
+      { "symptom_id": "S027", "certainty": 0.8 },
+      { "symptom_id": "S028", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 53,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Layu pucuk (S007) dengan user kepastian rendah",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.35
+  },
+  {
+    "id": 54,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "User input noise: S005 (Bercak abu) kuat, S012 (Kerdil - D05) lemah",
+    "symptoms": [
+      { "symptom_id": "S005", "certainty": 0.9 },
+      { "symptom_id": "S012", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 55,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Kutil akar (S010) dengan kepastian medium",
+    "symptoms": [
+      { "symptom_id": "S010", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 56,
+    "expectedDisease": "Hama Kutu Daun (Aphid)",
+    "description": "Tanaman kerdil (S012) dan daun keriput kuning (S025) sangat yakin",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.9 },
+      { "symptom_id": "S025", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.8
+  },
+  {
+    "id": 57,
+    "expectedDisease": "Antraknosa",
+    "description": "Kombinasi S001 dan S002 sangat tinggi",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 1.0 },
+      { "symptom_id": "S002", "certainty": 1.0 }
+    ],
+    "minExpectedCF": 0.9
+  },
+  {
+    "id": 58,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "Bercak basah hijau suram (S008) saja dengan low certainty",
+    "symptoms": [
+      { "symptom_id": "S008", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.25
+  },
+  {
+    "id": 59,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Daun menumpuk (S015), kerdil (S012), lengkung (S016) semua ada tapi certainty variatif",
+    "symptoms": [
+      { "symptom_id": "S015", "certainty": 0.8 },
+      { "symptom_id": "S012", "certainty": 0.5 },
+      { "symptom_id": "S016", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 60,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Layu dari pucuk (S007) dan batang busuk (S006) - Gejala Textbook",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 1.0 },
+      { "symptom_id": "S006", "certainty": 1.0 }
+    ],
+    "minExpectedCF": 0.8
+  },
+  {
+    "id": 61,
+    "expectedDisease": "Antraknosa",
+    "description": "Dominasi bercak hitam (S003)",
+    "symptoms": [
+      { "symptom_id": "S003", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 62,
+    "expectedDisease": "Hama Thrips",
+    "description": "Gejala campuran: S018, S019, S020",
+    "symptoms": [
+      { "symptom_id": "S018", "certainty": 0.6 },
+      { "symptom_id": "S019", "certainty": 0.7 },
+      { "symptom_id": "S020", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 63,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "S029 (Daun abnormal) dominan",
+    "symptoms": [
+      { "symptom_id": "S029", "certainty": 0.95 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 64,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "S026 (Tunas gugur) kepastian rendah",
+    "symptoms": [
+      { "symptom_id": "S026", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.35
+  },
+  {
+    "id": 65,
+    "expectedDisease": "Layu Bakteri",
+    "description": "Batang mudah terkelupas (S014) dominan",
+    "symptoms": [
+      { "symptom_id": "S014", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 66,
+    "expectedDisease": "Virus Kuning",
+    "description": "Gejala kuning (S030) sangat kuat, keriting (S031) lemah",
+    "symptoms": [
+      { "symptom_id": "S030", "certainty": 1.0 },
+      { "symptom_id": "S031", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 67,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "Buah rontok (S023) dan busuk (S001) tanpa titik hitam",
+    "symptoms": [
+      { "symptom_id": "S023", "certainty": 0.8 },
+      { "symptom_id": "S001", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 68,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "Hanya gejala S005 (Bercak abu) kepastian rendah",
+    "symptoms": [
+      { "symptom_id": "S005", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.3
+  },
+  {
+    "id": 69,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "S012 (Kerdil) dominan, tapi overlap D07/D14, namun testing rule D05",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.4
+  },
+  {
+    "id": 70,
+    "expectedDisease": "Antraknosa",
+    "description": "Semua gejala S001, S002, S003 ada tapi kepastian rendah (0.3)",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 0.3 },
+      { "symptom_id": "S002", "certainty": 0.3 },
+      { "symptom_id": "S003", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.35
+  },
+  {
+    "id": 71,
+    "expectedDisease": "Ulat Grayak",
+    "description": "S022 (Tanaman gundul) saja",
+    "symptoms": [
+      { "symptom_id": "S022", "certainty": 0.85 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 72,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "S013 (Pucuk coklat) dan S014 (Kulit kelupas) moderat",
+    "symptoms": [
+      { "symptom_id": "S013", "certainty": 0.6 },
+      { "symptom_id": "S014", "certainty": 0.6 }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 73,
+    "expectedDisease": "Hama Thrips",
+    "description": "S019 (Keriput ke atas) dan S018 (Tembaga) sangat tinggi",
+    "symptoms": [
+      { "symptom_id": "S019", "certainty": 0.95 },
+      { "symptom_id": "S018", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.85
+  },
+  {
+    "id": 74,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "S027 (Kaku ke bawah) saja",
+    "symptoms": [
+      { "symptom_id": "S027", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 75,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "S017 (Hijau pekat) dominan",
+    "symptoms": [
+      { "symptom_id": "S017", "certainty": 0.85 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 76,
+    "expectedDisease": "Layu Bakteri",
+    "description": "The Deadly Triangle (D03 vs D06 vs D08). User melaporkan Layu Pucuk (S007) dan Batang Kelupas (S014). Ini irisan D08 dan D06. Namun S007 punya bobot tinggi di D08.",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.9 },
+      { "symptom_id": "S014", "certainty": 0.8 },
+      { "symptom_id": "S006", "certainty": 0.2 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 77,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "Konflik dengan Fusarium. Ada Batang Busuk (S006 - milik keduanya) dan Pucuk Coklat (S013 - khas D06), tapi user ragu pada S013.",
+    "symptoms": [
+      { "symptom_id": "S006", "certainty": 0.9 },
+      { "symptom_id": "S013", "certainty": 0.5 },
+      { "symptom_id": "S007", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.55
+  },
+  {
+    "id": 78,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "False Positive Antraknosa. Gejala S001 (Busuk basah) ada di D01 dan D13. User lapor S001 sangat yakin, tapi S024 (Titik hitam - kunci D13) rendah. Sistem harus hati-hati.",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 1.0 },
+      { "symptom_id": "S024", "certainty": 0.4 },
+      { "symptom_id": "S003", "certainty": 0.2 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 79,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Overlapping Symptoms dengan Aphid (D14). Keduanya menyebabkan kerdil (S012). S015 (Menumpuk) menjadi penentu meski ada noise S025 (Kuning) rendah.",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.8 },
+      { "symptom_id": "S015", "certainty": 0.7 },
+      { "symptom_id": "S025", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 80,
+    "expectedDisease": "Hama Kutu Daun (Aphid)",
+    "description": "Kebalikan kasus 79. Sama-sama kerdil (S012), tapi kali ini S025 (Keriput Kuning) dominan, mengalahkan indikasi Kerupuk.",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.8 },
+      { "symptom_id": "S025", "certainty": 0.9 },
+      { "symptom_id": "S015", "certainty": 0.2 }
+    ],
+    "minExpectedCF": 0.8
+  },
+  {
+    "id": 81,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Gejala Kerdil (S012) dan Layu (S011) muncul. Ini sangat umum. Penentunya adalah S010 (Kutil) meskipun user input dengan keyakinan rendah (hidden evidence).",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 0.7 },
+      { "symptom_id": "S011", "certainty": 0.6 },
+      { "symptom_id": "S010", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 82,
+    "expectedDisease": "Antraknosa",
+    "description": "Kasus 'Noise' parah. User memasukkan gejala busuk basah (S001) dan bercak hitam (S003) untuk D01, tapi juga memasukkan gejala ulat (S021) dan kutu (S025) secara acak.",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 0.9 },
+      { "symptom_id": "S003", "certainty": 0.8 },
+      { "symptom_id": "S021", "certainty": 0.5 },
+      { "symptom_id": "S025", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 83,
+    "expectedDisease": "Hama Thrips",
+    "description": "Visual Confusion. Daun Tembaga (S018) dan Keriput Atas (S019). Mirip dengan Tungau (Mite) yang punya gejala tembaga (S028). User salah input S028 sedikit.",
+    "symptoms": [
+      { "symptom_id": "S019", "certainty": 0.9 },
+      { "symptom_id": "S018", "certainty": 0.8 },
+      { "symptom_id": "S028", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.7
+  },
+  {
+    "id": 84,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "Kebalikan kasus 83. Gejala Tembaga bawah daun (S028) dan Kaku (S027) dominan, mengalahkan Thrips.",
+    "symptoms": [
+      { "symptom_id": "S027", "certainty": 0.85 },
+      { "symptom_id": "S028", "certainty": 0.8 },
+      { "symptom_id": "S019", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 85,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "Distinction Test vs Antraknosa. Sama-sama busuk. D04 punya 'Bercak Hijau Suram' (S008) vs D01 'Bercak Hitam' (S003). User input S008 tinggi, S003 medium (bingung warna).",
+    "symptoms": [
+      { "symptom_id": "S008", "certainty": 0.9 },
+      { "symptom_id": "S009", "certainty": 0.7 },
+      { "symptom_id": "S003", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.65
+  },
+  {
+    "id": 86,
+    "expectedDisease": "Virus Kuning",
+    "description": "Gejala tunggal S030 (Kuning). Ini gejala umum yang bisa tertukar dengan S004 (Kuning Dini) atau S025 (Kuning Keriput). Validasi isolasi gejala.",
+    "symptoms": [
+      { "symptom_id": "S030", "certainty": 0.8 },
+      { "symptom_id": "S004", "certainty": 0.2 },
+      { "symptom_id": "S025", "certainty": 0.2 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 87,
+    "expectedDisease": "Layu Fusarium",
+    "description": "Gejala 'Layu Pucuk' (S007) sangat kuat, tapi gejala pendukung 'Batang Busuk' (S006) absen. Sebagai gantinya user lapor 'Akar Bengkak' (S010) lemah.",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.95 },
+      { "symptom_id": "S010", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 88,
+    "expectedDisease": "Bercak Daun (Septoria/Serkospora)",
+    "description": "User melaporkan S004 (Kuning Dini) sangat tinggi, tapi S005 (Bercak) rendah. Ini tricky karena bobot S005 biasanya lebih besar untuk diagnosa pasti.",
+    "symptoms": [
+      { "symptom_id": "S004", "certainty": 0.9 },
+      { "symptom_id": "S005", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.5
+  },
+  {
+    "id": 89,
+    "expectedDisease": "Ulat Grayak",
+    "description": "User hanya melihat 'Tanaman Gundul' (S022) tanpa melihat lubang buah (S021). CF S022 cukup tinggi (0.8) pada rule D12, harusnya terdeteksi.",
+    "symptoms": [
+      { "symptom_id": "S022", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 90,
+    "expectedDisease": "Hama Lalat Buah",
+    "description": "Cross-symptom dengan Ulat. User lapor 'Titik Hitam' (S024 - D13) dan 'Lubang Buah' (S021 - D12). Titik hitam punya MB 0.9 di D13, Lubang MB 0.6 di D12. D13 harus menang.",
+    "symptoms": [
+      { "symptom_id": "S024", "certainty": 0.8 },
+      { "symptom_id": "S021", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 91,
+    "expectedDisease": "Antraknosa",
+    "description": "Gejala campuran Busuk. S001 (Busuk basah) + S006 (Batang busuk). S001 milik D01/D13, S006 milik D03/D06. D01 menang karena S001 bobotnya 0.85 di D01.",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 0.9 },
+      { "symptom_id": "S006", "certainty": 0.7 }
+    ],
+    "minExpectedCF": 0.65
+  },
+  {
+    "id": 92,
+    "expectedDisease": "Kerupuk (ciri fisiologis / virus-like)",
+    "description": "Gejala dominan S017 (Hijau Pekat) dan S016 (Lengkung Bawah). Ini gejala visual yang sering salah diartikan sebagai Tungau (S027 - Lengkung Bawah).",
+    "symptoms": [
+      { "symptom_id": "S017", "certainty": 0.9 },
+      { "symptom_id": "S016", "certainty": 0.8 },
+      { "symptom_id": "S027", "certainty": 0.4 }
+    ],
+    "minExpectedCF": 0.75
+  },
+  {
+    "id": 93,
+    "expectedDisease": "Layu Bakteri",
+    "description": "High Uncertainty Case. Semua gejala D08 (S007, S014) dimasukkan user tapi dengan nilai keyakinan sangat rendah (0.3).",
+    "symptoms": [
+      { "symptom_id": "S007", "certainty": 0.3 },
+      { "symptom_id": "S014", "certainty": 0.3 }
+    ],
+    "minExpectedCF": 0.3
+  },
+  {
+    "id": 94,
+    "expectedDisease": "Hama Tungau (Mite)",
+    "description": "S026 (Tunas Gugur) dan S023 (Buah Rontok - D13). User bingung bedakan gugur tunas vs buah. D10 punya S026 bobot 0.8. D13 punya S023 bobot 0.7.",
+    "symptoms": [
+      { "symptom_id": "S026", "certainty": 0.8 },
+      { "symptom_id": "S023", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 95,
+    "expectedDisease": "Hama Thrips",
+    "description": "S020 (Pucuk mati) vs S013 (Pucuk busuk - D06). Deskripsi gejala mirip secara visual. User pilih S020 (D11) dan S013 (D06). S019 (Keriput ke atas) jadi penentu.",
+    "symptoms": [
+      { "symptom_id": "S020", "certainty": 0.7 },
+      { "symptom_id": "S013", "certainty": 0.7 },
+      { "symptom_id": "S019", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.65
+  },
+  {
+    "id": 96,
+    "expectedDisease": "Busuk Daun (Choanephora)",
+    "description": "S013 (Pucuk coklat) sangat kuat, tapi S014 (Batang kelupas) lemah. Ada gangguan S002 (Ranting busuk - D01).",
+    "symptoms": [
+      { "symptom_id": "S013", "certainty": 0.9 },
+      { "symptom_id": "S014", "certainty": 0.2 },
+      { "symptom_id": "S002", "certainty": 0.5 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 97,
+    "expectedDisease": "Bengkak Akar (Nematoda / Rhizomania-like)",
+    "description": "Tanaman Kerdil (S012) 1.0. Ini gejala umum untuk D05, D07, D14. Tanpa gejala lain, sistem biasanya akan menaruh D05 atau D07 di atas tergantung urutan/bobot (D07 S012 mb=0.6, D05 S012 mb=0.6, D14 S012 mb=0.6). Karena bobot sama, ini 'Ambiguous/Tie'. Kita harap D05 muncul (atau tie).",
+    "symptoms": [
+      { "symptom_id": "S012", "certainty": 1.0 }
+    ],
+    "minExpectedCF": 0.4
+  },
+  {
+    "id": 98,
+    "expectedDisease": "Busuk Buah (Phytophthora)",
+    "description": "S009 (Buah keriput) kuat. S025 (Daun keriput - D14) juga ada. Keriput pada buah vs daun. User teliti.",
+    "symptoms": [
+      { "symptom_id": "S009", "certainty": 0.9 },
+      { "symptom_id": "S025", "certainty": 0.9 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 99,
+    "expectedDisease": "Antraknosa",
+    "description": "User melaporkan Buah Busuk (S001) tapi menyangkal (CF 0) gejala lain seperti S003. Namun CF 0 tidak mengurangi nilai S001. Hanya S001 yang dihitung.",
+    "symptoms": [
+      { "symptom_id": "S001", "certainty": 0.9 },
+      { "symptom_id": "S003", "certainty": 0.0 }
+    ],
+    "minExpectedCF": 0.6
+  },
+  {
+    "id": 100,
+    "expectedDisease": "Layu Bakteri",
+    "description": "S014 (Batang kelupas) kuat. S002 (Ranting busuk - D01) kuat. Konflik batang vs ranting.",
+    "symptoms": [
+      { "symptom_id": "S014", "certainty": 0.8 },
+      { "symptom_id": "S002", "certainty": 0.8 }
+    ],
+    "minExpectedCF": 0.5
   }
 ]

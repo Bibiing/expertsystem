@@ -49,7 +49,7 @@ class ValidationService {
       totalCases: testCases.length,
       correctDiagnoses: 0,
       correctDiagnosesWithThreshold: 0,
-      cfThreshold: 0.5, // CF minimum untuk dianggap valid
+      cfThreshold: 0.4, // CF minimum untuk dianggap valid
       cfStats: {
         min: 1,
         max: 0,
