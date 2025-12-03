@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stethoscope, CheckCircle2, Loader2, AlertCircle, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+import { Stethoscope, Loader2, AlertCircle, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingOverlay from "../components/Loading";
 import { diagnosisService } from "../services/diagnosisService";
@@ -15,6 +15,15 @@ function Konsultasi() {
   const [isFetching, setIsFetching] = useState(true); // Loading awal fetch gejala
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+
+  // Opsi keyakinan untuk dropdown
+  const certaintyOptions = [
+    { label: "Tidak yakin", value: 0.2 },
+    { label: "Cukup Yakin", value: 0.4 },
+    { label: "Yakin", value: 0.6 },
+    { label: "Sangat Yakin", value: 0.8 },
+    { label: "Pasti", value: 1.0 },
+  ];
 
   // Fetch gejala saat komponen dimuat
   useEffect(() => {
@@ -45,6 +54,7 @@ function Konsultasi() {
       setExpandedGejala((prev) => ({ ...prev, [gejalaId]: false }));
     } else {
       setSelectedGejala((prev) => [...prev, gejalaId]);
+      // Default value set to 1.0 (Pasti) when selected
       setCertaintyValues({ ...certaintyValues, [gejalaId]: 1.0 });
 
       // Auto expand when selected
@@ -77,16 +87,15 @@ function Konsultasi() {
       }));
 
       const result = await diagnosisService.diagnose(payload);
-      
+
       // Siapkan data untuk halaman hasil
-      // Kita perlu mengirim juga detail gejala yang dipilih untuk ditampilkan
       const selectedGejalaDetails = gejalaList.filter(g => selectedGejala.includes(g._id));
-      
-      navigate("/hasil", { 
-        state: { 
+
+      navigate("/hasil", {
+        state: {
           diagnosisResult: result,
           selectedGejala: selectedGejalaDetails
-        } 
+        }
       });
     } catch (err) {
       alert("Terjadi kesalahan saat diagnosis. Coba lagi.");
@@ -118,7 +127,7 @@ function Konsultasi() {
   if (error) return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-red-600 font-medium">{error}</div>;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -126,7 +135,7 @@ function Konsultasi() {
     >
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -154,16 +163,14 @@ function Konsultasi() {
               </p>
               <ul className="text-emerald-50 text-xs sm:text-sm space-y-1">
                 <li>• Pilih semua gejala yang Anda amati pada tanaman</li>
-                <li>
-                  • Tentukan tingkat keyakinan Anda (0 - 1)
-                </li>
+                <li>• Tentukan tingkat keyakinan (Tidak yakin s/d Pasti)</li>
                 <li className="hidden sm:list-item">
                   • Perhatikan gejala dengan teliti sebelum memilih
                 </li>
               </ul>
             </div>
           </div>
-          
+
           <button
             onClick={() => navigate("/")}
             className="flex items-center gap-2 text-emerald-100 hover:text-white transition-colors duration-300 text-sm sm:text-base mt-4"
@@ -173,7 +180,7 @@ function Konsultasi() {
           </button>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -203,11 +210,10 @@ function Konsultasi() {
               whileTap={{ scale: 0.98 }}
               onClick={handleSubmit}
               disabled={isLoading || selectedGejala.length === 0}
-              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${
-                isLoading || selectedGejala.length === 0
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${isLoading || selectedGejala.length === 0
                   ? "bg-slate-200 text-slate-400 cursor-not-allowed"
                   : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl"
-              }`}
+                }`}
             >
               {isLoading ? (
                 <>
@@ -241,72 +247,82 @@ function Konsultasi() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 key={item._id}
-                className={`rounded-lg transition-all duration-300 border ${
-                  selectedGejala.includes(item._id)
+                className={`rounded-lg transition-all duration-300 border ${selectedGejala.includes(item._id)
                     ? "bg-emerald-50 border-emerald-500 shadow-sm"
                     : "bg-white border-slate-100 hover:bg-slate-50 hover:border-emerald-200"
-                }`}
+                  }`}
               >
                 <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 cursor-pointer" onClick={() => handleCheckboxChange(item._id)}>
-                    <div className="flex items-center h-5 sm:h-6 shrink-0">
+                  <div className="flex items-center h-5 sm:h-6 shrink-0">
                     <input
-                        type="checkbox"
-                        checked={selectedGejala.includes(item._id)}
-                        onChange={() => handleCheckboxChange(item._id)}
-                        className="w-4 h-4 sm:w-5 sm:h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
+                      type="checkbox"
+                      checked={selectedGejala.includes(item._id)}
+                      onChange={() => handleCheckboxChange(item._id)}
+                      className="w-4 h-4 sm:w-5 sm:h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}
                     />
-                    </div>
-                    <div className="flex-1 min-w-0">
+                  </div>
+                  <div className="flex-1 min-w-0">
                     <p className={`text-xs sm:text-sm leading-relaxed wrap-break-word ${selectedGejala.includes(item._id) ? 'text-emerald-900 font-medium' : 'text-slate-700'}`}>
-                        {item.name}
+                      {item.name}
                     </p>
-                    </div>
-                    <button onClick={(e) => toggleDescription(e, item._id)} className="text-slate-400 hover:text-emerald-600">
-                        {expandedGejala[item._id] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                    </button>
+                  </div>
+                  <button onClick={(e) => toggleDescription(e, item._id)} className="text-slate-400 hover:text-emerald-600">
+                    {expandedGejala[item._id] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                  </button>
                 </div>
-                
-                <AnimatePresence>
-                    {expandedGejala[item._id] && (
-                        <motion.div 
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="overflow-hidden"
-                        >
-                            <div className="px-4 pb-4 pl-12 space-y-3">
-                                <p className="text-sm text-slate-600">
-                                    {item.description || "Tidak ada deskripsi."}
-                                </p>
 
-                                {selectedGejala.includes(item._id) && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="pt-2 border-t border-slate-100"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <label className="text-xs font-medium text-slate-700 whitespace-nowrap">
-                                                Keyakinan: {certaintyValues[item._id] || 1}
-                                            </label>
-                                            <input 
-                                                type="range" 
-                                                min="0" 
-                                                max="1" 
-                                                step="0.1" 
-                                                value={certaintyValues[item._id] || 1} 
-                                                onChange={(e) => handleCertaintyChange(item._id, e.target.value)}
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
-                                            />
-                                        </div>
-                                    </motion.div>
-                                )}
+                <AnimatePresence>
+                  {expandedGejala[item._id] && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 pl-12 space-y-3">
+                        <p className="text-sm text-slate-600">
+                          {item.description || "Tidak ada deskripsi."}
+                        </p>
+
+                        {selectedGejala.includes(item._id) && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="pt-2 border-t border-emerald-200/50"
+                          >
+                            <div className="flex flex-col gap-2">
+                              <label className="text-xs font-semibold text-emerald-800">
+                                Seberapa yakin Anda dengan gejala ini?
+                              </label>
+
+                              {/* Dropdown Input Pengganti Slider */}
+                              <div className="relative">
+                                <select
+                                  value={certaintyValues[item._id] || 1.0}
+                                  onChange={(e) => handleCertaintyChange(item._id, e.target.value)}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="w-full p-2.5 bg-white border border-emerald-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 cursor-pointer appearance-none transition-all shadow-sm"
+                                >
+                                  {certaintyOptions.map((opt) => (
+                                    <option key={opt.value} value={opt.value}>
+                                      {opt.label} ({opt.value})
+                                    </option>
+                                  ))}
+                                </select>
+                                {/* Custom Chevron Icon absolute positioned */}
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-600">
+                                  <ChevronDown className="w-4 h-4" />
+                                </div>
+                              </div>
+
                             </div>
-                        </motion.div>
-                    )}
+                          </motion.div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </motion.div>
             ))}
